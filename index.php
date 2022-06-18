@@ -32,12 +32,10 @@
             margin-top: 50px;
             transition: 0.4s;
             border-radius: 10px;
-            cursor: pointer;
      -webkit-box-shadow: 2px 2px 29px 12px rgba(41,189,10,0.8); 
 box-shadow: 2px 2px 29px 12px rgba(41,189,10,0.8);
         }
         .play:hover{
-            color: #fff;
             background: rgba(41,189,10,0.8);
         }
         a{
