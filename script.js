@@ -42,27 +42,47 @@ let sv;
 let runda = 1;
 let punkty = 0;
 function initMap() { // funkcja odbywająca się wraz z startem strony
-    let x = randomFloat(19.75, 21.8); // losowane kordynaty
-    let y = randomFloat(50.3, 51.2); //
+    let x = randomFloat(-125, 177); // losowane kordynaty
+    let y = randomFloat(-66, 69); //
+    if(x <= -24 && x >= -34 ){
+        initMap();
+    }
     kordynaty = {
         lat: y,
         lng: x
     };
     sv = new google.maps.StreetViewService();
     map = new google.maps.Map(document.getElementById("mapa"), { // stworzenie obiektu mapa, przypisanie do diva
-        zoom: 8,
+        zoom: 2,
         center: {
-            lat: 50.76,
-            lng: 20.69,
+            lat: 20,
+            lng: 0,
         }, // kordynaty środka mapy
     });
     panorama = new google.maps.StreetViewPanorama( // stworzenie obiektu streetview (panorama), przypisanie do diva
         document.getElementById("pano")
     );
+    window.getPano = function getPano(){
     sv.getPanorama({
         location: kordynaty,
-        radius: 8000
-    }).then(processSVData); // funkcja getPanorama szuka zdjęc streetview na lokalizacji 'kordynaty' w zasięgu 8000 metrów
+        source: google.maps.StreetViewSource.OUTDOOR,
+        radius: 80000
+    }).then(function(res){
+        processSVData(res);
+    },
+    function(err){
+        console.log("Nie znaleziono żadnego StreetView, losuje nowe kordynaty....")
+            x = randomFloat(-125, 177); // losowane kordynaty
+            y = randomFloat(-66, 69);
+            kordynaty = {
+                lat: y,
+                lng: x
+            };
+        getPano();
+    }
+    );
+    }// funkcja getPanorama szuka zdjęc streetview na lokalizacji 'kordynaty' w zasięgu 8000 metrów
+    getPano();
     google.maps.event.addListener(map, 'click', function (e) { // funkcja aktywuje się po kliknięciu na mapę
         if (licznik == 0) { // licznik - ilość postawionych znaczników, przyjmuje wartości 0, 1
             marker.setVisible(true);
@@ -86,6 +106,12 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
             }            
         }
     });
+    
+}
+
+
+function start() {
+    window.getPano();
 }
 
 function processSVData({
@@ -139,11 +165,4 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
     document.getElementById("runda").innerHTML = "Runda "+runda+"/5";
     initMap(); 
     }
-}
-
-function start() {
-    sv.getPanorama({
-        location: kordynaty,
-        radius: 8000
-    }).then(processSVData);
 }
