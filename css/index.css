@@ -1,0 +1,60 @@
+body{
+    font-family: 'Roboto', sans-serif;
+    padding-top: 3vh;
+    background: #202020;
+    color: #fff;
+}
+.top_bar{
+    display: flex;
+}
+h1{
+    float: left;
+    font-size: 36px;
+    text-shadow: 4px 4px 6px rgba(0, 0, 0, 1); 
+    margin-top: 0;
+}
+.logo{
+width: 60px;
+    height: 60px;
+    float: left;
+    margin-left: 20px;
+    margin-right: 16px;
+}
+.dot{
+    font-size: 44px;
+    color: #2ecc71;
+}
+button{
+    font-family: 'Roboto', sans-serif;
+}
+.top_bar button{
+    height: 40px;
+    outline: none;
+    border: 0;
+    margin-right: 20px;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px;
+    margin-top: 10px;
+    transition: background 0.4s;
+    cursor: pointer;
+}
+.buttons{
+    margin-left: auto;
+}
+.login{
+    background: #2ecc71;
+}
+.login:hover{
+    background: #1dbb60;
+}
+.rejestracja{
+    background: #969eff;
+}
+.rejestracja:hover{
+    background: #858dee;
+}
+a{
+    color: #fff;
+    text-decoration: none;
+}

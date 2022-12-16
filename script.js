@@ -153,7 +153,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         document.getElementById("pano").style.background = "transparent";
         document.getElementById("pano").style.paddingTop = "100px";
         document.getElementById("pano").style.textAlign = "center";
-        document.getElementById("pano").innerHTML = '<img src="game_over.png" height="80%" width="50%">';
+        document.getElementById("pano").innerHTML = '<img src="images/game_over.png" height="80%" width="50%">';
     }
     else{
     document.getElementById("pano").innerHTML = "";
