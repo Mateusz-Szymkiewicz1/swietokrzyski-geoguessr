@@ -125,7 +125,7 @@ function processSVData({
         position: location.latLng,
         map,
         animation: google.maps.Animation.DROP,
-        icon: 'go.png',
+        icon: 'images/go.png',
     });
     marker.setVisible(false);
     panorama.setPano(location.pano); // ustawia panoramę
