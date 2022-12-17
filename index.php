@@ -12,8 +12,8 @@
     <div class="top_bar">
         <img src="favicon.ico" class="logo"><h1>Żiogeser<span class="dot">.</span></h1>
         <div class="buttons">
-        <a href="log.php"><button class="login">Zaloguj</button></a>
-        <a href="rej.php"><button class="rejestracja">Utwórz konto</button></a>
+        <a href="rej.php?form=log"><button class="login">Zaloguj</button></a>
+        <a href="rej.php?form=rej"><button class="rejestracja">Utwórz konto</button></a>
         </div>
     </div>
 </body>
