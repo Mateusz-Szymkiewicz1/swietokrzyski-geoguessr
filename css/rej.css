@@ -3,6 +3,7 @@ body{
             background-image: url("../images/tlo.jpg");
     background-color: #000;
     background-size: cover;
+    color: #fff;
         }
         form{
             text-align: center;
@@ -184,4 +185,9 @@ img{
     top: 10px;
     left: 10px;
     transform: rotate(-180deg);
+}
+.error{
+    color: #d63031;
+    display: block;
+    margin-bottom: 20px;
 }
