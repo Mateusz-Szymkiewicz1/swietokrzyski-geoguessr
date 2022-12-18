@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-2VsB6HLBe9m2ZSXmQbGR1b2gzFNijLQ&callback=initMap&v=weekly" defer></script>
     <link rel="stylesheet" href="css/style.css">
+    <script src="maps.js"></script>
     <script src="script.js"></script>
 </head>
 <body>

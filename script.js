@@ -1,32 +1,3 @@
-window.maps = {
-    Świat: {
-        minx: -125,
-        maxx: 177,
-        miny: -66,
-        maxy: 69,
-    },
-    Polska: {
-        minx: 14.10,
-        maxx: 24,
-        miny: 49,
-        maxy: 54.8,
-        countries: ["POL"]
-    },
-    USA: {
-        minx: -167,
-        maxx: -66,
-        miny: 18.3,
-        maxy: 71,
-        countries: ["USA"]
-    },
-    UE:{
-        minx: -9.5,
-        maxx: 34.4,
-        miny: 34.9,
-        maxy: 70,
-        countries: ["POL", "DEU", "FRA", "BGR", "ESP", "ITA","SWE", "LVA","HRV", "EST","FIN","CZE","GRC","BEL","ROU","LTU","HUN","NLD","SVN", "AUT","SVK","PRT","IRL","CYP","DNK","AND","LUX","MLT"]
-    }
-}
 //var xmlHttp = new XMLHttpRequest();
 //            xmlHttp.onreadystatechange = function() { 
 //                if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
@@ -34,10 +5,13 @@ window.maps = {
 //                     console.log(response);
 //                }
 //            }
-//            xmlHttp.open("GET", `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=14.449%2C35.86`, true);
+//            xmlHttp.open("GET", `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=12.466%2C43.9`, true);
 //            xmlHttp.send(null);
 const urlParams = new URLSearchParams(window.location.search);
 window.current_map = urlParams.get("map");
+let map_sizeY = Math.abs(window.maps[window.current_map].maxy-window.maps[window.current_map].miny);
+let map_sizeX = Math.abs(window.maps[window.current_map].maxx-window.maps[window.current_map].minx);
+let map_size = (map_sizeX+map_sizeY)/2;
 function randomFloat(min, max) {
     return (Math.random() * (max - min)) + min; // funkcja tworząca losowe floaty
 }
@@ -93,11 +67,8 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
     };
     sv = new google.maps.StreetViewService();
     map = new google.maps.Map(document.getElementById("mapa"), { // stworzenie obiektu mapa, przypisanie do diva
-        zoom: 2,
-        center: {
-            lat: 20,
-            lng: 0,
-        }, // kordynaty środka mapy
+        zoom: window.maps[window.current_map].zoom,
+        center: window.maps[window.current_map].center  // kordynaty środka mapy
     });
     panorama = new google.maps.StreetViewPanorama( // stworzenie obiektu streetview (panorama), przypisanie do diva
         document.getElementById("pano")
@@ -112,7 +83,6 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
             xmlHttp.onreadystatechange = function() { 
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
                     let response = JSON.parse(xmlHttp.response);
-                     console.log(response.address.CountryCode);
                     if(window.current_map != "Świat"){
                         if(window.maps[window.current_map].countries.indexOf(response.address.CountryCode) >= 0){
                             processSVData(res);
@@ -161,12 +131,10 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
             distance = haversine_distance(marker, marker2);
             let distance2 = ((distance.toFixed(3)) * 1.6).toFixed(3);
             document.getElementById("runda").innerHTML = document.getElementById("runda").innerHTML +" - " + distance2 + " km";
-            if(distance2 < 1){
-                punkty = 1000;
-            }
-            else{
-             punkty = punkty+Math.round(1000/distance2);  
-            }            
+            let punkty_now = 10000/parseInt(distance2)*Math.sqrt(map_size); 
+            let punkty_setki = punkty_now/100;
+            punkty_now = punkty_now*punkty_setki;
+            punkty += Math.round(punkty_now);
         }
     });
     
@@ -204,11 +172,11 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         document.getElementById("kordy").style.display = "none";
         document.getElementById("start").style.display = "none";
         if(high_score == null || punkty > high_score){
-            document.cookie = "high_score="+punkty+"; expires=Thu, 18 Dec 2030 12:00:00 UTC";
-            document.getElementById("runda").innerHTML = "Koniec gry - "+punkty+" pkt. " + "High score: "+punkty+" pkt.  "+'<a href="gra.php">Nowa gra</a>';
+            document.cookie = "high_score="+punkty+"; expires=Thu, 18 Dec 2030 12:00:00 UTC;";
+            document.getElementById("runda").innerHTML = "Koniec gry - "+punkty+" pkt. " + "High score: "+punkty+" pkt.  "+`<a href="gra.php?map=${window.current_map}">Nowa gra</a>`;
         }
         else{
-        document.getElementById("runda").innerHTML = "Koniec gry - "+punkty+" pkt. " + "High score: "+high_score+" pkt. "+'<a href="gra.php">Nowa gra</a>';
+        document.getElementById("runda").innerHTML = "Koniec gry - "+punkty+" pkt. " + "High score: "+high_score+" pkt. "+`<a href="gra.php?map=${window.current_map}">Nowa gra</a>`;
         }
         document.getElementById("mapa").innerHTML = "";
         document.getElementById("mapa").style.border = "0";
