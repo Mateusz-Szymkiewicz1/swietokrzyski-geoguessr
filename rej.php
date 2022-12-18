@@ -62,6 +62,10 @@ if($form == "log"){
             $sql = "INSERT INTO uzytkownicy (login, haslo, email) VALUES ('$login', '$haslo_hashed', '$email');";
             $stmt = $db->prepare($sql);
             $stmt->execute();
+            $_SESSION['zalogowany'] = 'True';
+            $_SESSION['time'] = time();
+            $_SESSION['expire'] = $_SESSION['time'] + (15 * 60);
+            $_SESSION['login'] = $login;
             echo "<script>window.location.href='index.php'</script>";
         }
     }

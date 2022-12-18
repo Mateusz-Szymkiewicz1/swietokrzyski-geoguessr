@@ -1,3 +1,14 @@
+window.maps = {
+    Świat: {
+        
+    },
+    Polska: {
+        
+    },
+    USA: {
+        
+    }
+}
 function randomFloat(min, max) {
     return (Math.random() * (max - min)) + min; // funkcja tworząca losowe floaty
 }
@@ -68,6 +79,16 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
         source: google.maps.StreetViewSource.OUTDOOR,
         radius: 80000
     }).then(function(res){
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() { 
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+                    let response = JSON.parse(xmlHttp.response);
+                     console.log(response.address.CountryCode);
+                }
+            }
+            xmlHttp.open("GET", `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=${x}%2C${y}`, true); // true for asynchronous 
+            xmlHttp.send(null);
+//        https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=-117.205525%2C34.038232
         processSVData(res);
     },
     function(err){
