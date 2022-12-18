@@ -89,6 +89,9 @@ a{
 .card--3 .card__img, .card--3 .card__img--hover {
     background-image: url('../images/ue.jpg');
 }
+.card--4 .card__img, .card--4 .card__img--hover {
+    background-image: url('../images/usa.jpg');
+}
 .card__like {
     width: 18px;
 }

@@ -1,14 +1,43 @@
 window.maps = {
     Świat: {
-        
+        minx: -125,
+        maxx: 177,
+        miny: -66,
+        maxy: 69,
     },
     Polska: {
-        
+        minx: 14.10,
+        maxx: 24,
+        miny: 49,
+        maxy: 54.8,
+        countries: ["POL"]
     },
     USA: {
-        
+        minx: -167,
+        maxx: -66,
+        miny: 18.3,
+        maxy: 71,
+        countries: ["USA"]
+    },
+    UE:{
+        minx: -9.5,
+        maxx: 34.4,
+        miny: 34.9,
+        maxy: 70,
+        countries: ["POL", "DEU", "FRA", "BGR", "ESP", "ITA","SWE", "LVA","HRV", "EST","FIN","CZE","GRC","BEL","ROU","LTU","HUN","NLD","SVN", "AUT","SVK","PRT","IRL","CYP","DNK","AND","LUX","MLT"]
     }
 }
+//var xmlHttp = new XMLHttpRequest();
+//            xmlHttp.onreadystatechange = function() { 
+//                if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+//                    let response = JSON.parse(xmlHttp.response);
+//                     console.log(response);
+//                }
+//            }
+//            xmlHttp.open("GET", `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=14.449%2C35.86`, true);
+//            xmlHttp.send(null);
+const urlParams = new URLSearchParams(window.location.search);
+window.current_map = urlParams.get("map");
 function randomFloat(min, max) {
     return (Math.random() * (max - min)) + min; // funkcja tworząca losowe floaty
 }
@@ -53,8 +82,8 @@ let sv;
 let runda = 1;
 let punkty = 0;
 function initMap() { // funkcja odbywająca się wraz z startem strony
-    let x = randomFloat(-125, 177); // losowane kordynaty
-    let y = randomFloat(-66, 69); //
+    let x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
+    let y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy); //
     if(x <= -24 && x >= -34 ){
         initMap();
     }
@@ -84,17 +113,30 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
                     let response = JSON.parse(xmlHttp.response);
                      console.log(response.address.CountryCode);
+                    if(window.current_map != "Świat"){
+                        if(window.maps[window.current_map].countries.indexOf(response.address.CountryCode) >= 0){
+                            processSVData(res);
+                        }else{
+                            x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
+                            y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
+                            kordynaty = {
+                                lat: y,
+                                lng: x
+                            };
+                            getPano();
+                        }
+                    }else{
+                        processSVData(res);
+                    }
                 }
             }
-            xmlHttp.open("GET", `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=${x}%2C${y}`, true); // true for asynchronous 
+            xmlHttp.open("GET", `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=${x}%2C${y}`, true);
             xmlHttp.send(null);
-//        https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=-117.205525%2C34.038232
-        processSVData(res);
     },
     function(err){
         console.log("Nie znaleziono żadnego StreetView, losuje nowe kordynaty....")
-            x = randomFloat(-125, 177); // losowane kordynaty
-            y = randomFloat(-66, 69);
+            x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
+            y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
             kordynaty = {
                 lat: y,
                 lng: x
