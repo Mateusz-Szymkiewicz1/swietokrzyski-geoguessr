@@ -107,7 +107,7 @@ a{
     z-index: 1;
     border: 2px solid #fff;
     border-radius: 50%;
-    backdrop-filter: brightness(10);
+    backdrop-filter: brightness(15);
 }
 .mapa{
     height: 17vh;
@@ -122,10 +122,10 @@ a{
 .next{
     border: 2px solid #fff;
     border-radius: 50%;
-    backdrop-filter: brightness(10);
+    backdrop-filter: brightness(15);
 }
 .endbox{
-    margin-top: 46%;
+    margin-top: 66vh;
     color: #fff;
     text-align: center;
     font-size: 25px;
@@ -140,4 +140,32 @@ th{
 }
 th, td{
     padding: 12px;
+}
+td{
+    border: 2px solid #fff;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.1s;
+}
+h3{
+    margin-top: -20px;
+}
+.nowa_gra{
+    color:  #fff;
+    background: #03e9f4;
+    box-shadow: 0 0 1px #03e9f4,
+              0 0 5px #03e9f4,
+              0 0 10px #03e9f4,
+              0 0 20px #03e9f4;
+    padding: 12px;
+    font-size: 18px;
+    display: block;
+    width: 150px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 80px;
+}
+tr:hover td{
+    background: #03e9f4;;
+    color: #fff;
 }

@@ -15,6 +15,15 @@ let map_size = (map_sizeX+map_sizeY)/2;
 function randomFloat(min, max) {
     return (Math.random() * (max - min)) + min; // funkcja tworząca losowe floaty
 }
+function LightenDarkenColor(col, amt) {
+  var num = parseInt(col, 16);
+  var r = (num >> 16) + amt;
+  var b = ((num >> 8) & 0x00FF) + amt;
+  var g = (num & 0x0000FF) + amt;
+  var newColor = g | (b << 8) | (r << 16);
+  return newColor.toString(16);
+}
+
 function getCookie(name) {
     var dc = document.cookie;
     var prefix = name + "=";
@@ -176,7 +185,7 @@ function processSVData({
 window.initMap = initMap;
 
 function kordy() { // losuje nowe kordy, czyści wszystkie divy
-    if(runda >= 1){
+    if(runda >= 5){
         document.getElementById("kordy").style.display = "none";
         document.getElementById("start").style.display = "none";
         if(high_score == null || punkty > high_score){
@@ -188,45 +197,58 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         document.getElementById("runda").innerHTML = "";
         document.getElementById("mapa").innerHTML = "";
         document.getElementById("mapa").style.border = "0";
-        document.getElementById("pano").style.cssText = `background: transparent;padding-top:100px;border:2px solid #fff;height: 45%;width: 100%;text-align:center;`;
+        document.getElementById("pano").style.cssText = `background: transparent;padding-top:100px;border:2px solid #fff;height: 45vh;width: 100%;text-align:center;`;
         document.getElementById("pano").innerHTML = '';
+        document.getElementById("body").style.overflowY = "auto";
         let map_end = new google.maps.Map(document.getElementById("pano"), {
         zoom: window.maps[window.current_map].zoom,
         center: window.maps[window.current_map].center
         });
         for(i = 0; i < runda;i++){
+            let location_end;
+            let guesses_end;
             if(window.locations[i]){
-            let location_end = new google.maps.Marker({
+                location_end = new google.maps.Marker({
                 position: window.locations[i].latLng,
-                map: map_end
-            });
-            }
-            if(window.guesses[i]){
-            let guess_end = new google.maps.Marker({
-                position: window.guesses[i].latLng,
                 map: map_end,
                 icon: 'images/go.png',
             });
+            }
+            let randomColor = "";
+            while(randomColor.length < 6){
+                randomColor = Math.floor(Math.random()*0xffffff).toString(16);
+            }
+            randomColor2 = randomColor;
+            randomColor = "#"+randomColor;
+            if(window.guesses[i]){
+                guess_end = new google.maps.Marker({
+                position: window.guesses[i].latLng,
+                map: map_end,
+                icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|'+randomColor2
+            });
            let odl_end = new google.maps.Polyline({
                 path: [location_end.getPosition(), guess_end.getPosition()],
-                map: map_end
+                map: map_end,
+               strokeColor: randomColor,
+    strokeOpacity: 1.0,
+    strokeWeight: 4,
             });
             }
         }
         let endbox = document.createElement("div");
         endbox.classList.add("endbox");
-        endbox.innerHTML = `<h2>Gra skończona!</h2><table><tr><th>Runda</th><th>Odległość</th><th>Punkty</th></tr></table>`;
+        endbox.innerHTML = `<h2>Gra skończona!</h2><br/><h3>Punkty: ${punkty}</h3><table><tr><th>Runda</th><th>Odległość</th><th>Punkty</th></tr></table><br /><a class="nowa_gra" href="gra.php?map=${window.current_map}">Nowa gra</a>`;
         document.body.appendChild(endbox);
-        for(j = 1; j=runda;j++){
+        for(let j = 1; j<=runda;j++){
             let odleglosc_end;
-            if(window.distances[j]){
-                odleglosc_end = window.distances[j];
+            if(window.distances[j-1]){
+                odleglosc_end = Math.ceil(window.distances[j-1])+"km";
             }else{
                 odleglosc_end = "Brak";
             }
             let points_end;
-            if(window.points[j]){
-                points_end = window.points[j];
+            if(window.points[j-1]){
+                points_end = Math.ceil(window.points[j-1]);
             }else{
                 points_end = "Brak";
             }
