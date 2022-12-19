@@ -12,7 +12,7 @@
     <script src="maps.js"></script>
     <script src="script.js"></script>
 </head>
-<body>
+<body id="body">
    <a href="index.php"><img src="images/back.png" height="49px" width="50px" id="back"></a>
     <span id="runda">Runda 1/5</span>
     <div id="pano"></div>

@@ -14,7 +14,9 @@ body {
      left: 0;
      z-index: 0;
  }
-
+#pano div{
+    filter: invert(1);
+}
  .gm-iv-address {
      display: none;
  }
@@ -32,7 +34,6 @@ body {
      pointer-events: none;
      z-index: -9999;
  }
-
  .gm-style-cc,
  .gm-fullscreen-control {
      display: none;
@@ -122,4 +123,21 @@ a{
     border: 2px solid #fff;
     border-radius: 50%;
     backdrop-filter: brightness(10);
+}
+.endbox{
+    margin-top: 46%;
+    color: #fff;
+    text-align: center;
+    font-size: 25px;
+}
+table{
+    color: #fff;
+    margin: auto;
+    border: 2px solid #fff;
+}
+th{
+    font-size: 22px;
+}
+th, td{
+    padding: 12px;
 }

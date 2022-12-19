@@ -55,9 +55,10 @@ let distance;
 let sv;
 let runda = 1;
 let punkty = 0;
-window.markers_locations = [];
-window.markers_guesses = [];
-window.polylines = [];
+window.locations = [];
+window.guesses = [];
+window.distances = [];
+window.points = [];
 function initMap() { // funkcja odbywająca się wraz z startem strony
     let x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
     let y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy); //
@@ -127,18 +128,19 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                 position: e.latLng, // e.latLng to kordynaty 'e' czyli miejsca eventu - kliknięcia
                 map,
             });
-            window.markers_guesses.push(marker2)
+            window.guesses.push(e);
             odleglosc = new google.maps.Polyline({ // Polyline to obiekt linia pomiędzy dwoma punktami na mapie
                 path: [marker.getPosition(), marker2.getPosition()],
                 map: map
             });
-            window.polylines.push(odleglosc);
             distance = haversine_distance(marker, marker2);
             let distance2 = ((distance.toFixed(3)) * 1.6).toFixed(3);
+            window.distances.push(distance2);
             document.getElementById("runda").innerHTML = document.getElementById("runda").innerHTML +" - " + distance2 + " km";
             let punkty_now = 10000/parseInt(distance2)*Math.sqrt(map_size); 
             let punkty_setki = punkty_now/100;
             punkty_now = punkty_now*punkty_setki;
+            window.points.push(punkty_now);
             punkty += Math.round(punkty_now);
         }
     });
@@ -163,7 +165,7 @@ function processSVData({
         animation: google.maps.Animation.DROP,
         icon: 'images/go.png',
     });
-    window.markers_locations.push(marker);
+    window.locations.push(location);
     marker.setVisible(false);
     panorama.setPano(location.pano); // ustawia panoramę
     panorama.setPov({
@@ -186,11 +188,54 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         document.getElementById("runda").innerHTML = "";
         document.getElementById("mapa").innerHTML = "";
         document.getElementById("mapa").style.border = "0";
-        document.getElementById("pano").style.border = "2px solid #fff";
-        document.getElementById("pano").style.background = "transparent";
-        document.getElementById("pano").style.paddingTop = "100px";
-        document.getElementById("pano").style.textAlign = "center";
+        document.getElementById("pano").style.cssText = `background: transparent;padding-top:100px;border:2px solid #fff;height: 45%;width: 100%;text-align:center;`;
         document.getElementById("pano").innerHTML = '';
+        let map_end = new google.maps.Map(document.getElementById("pano"), {
+        zoom: window.maps[window.current_map].zoom,
+        center: window.maps[window.current_map].center
+        });
+        for(i = 0; i < runda;i++){
+            if(window.locations[i]){
+            let location_end = new google.maps.Marker({
+                position: window.locations[i].latLng,
+                map: map_end
+            });
+            }
+            if(window.guesses[i]){
+            let guess_end = new google.maps.Marker({
+                position: window.guesses[i].latLng,
+                map: map_end,
+                icon: 'images/go.png',
+            });
+           let odl_end = new google.maps.Polyline({
+                path: [location_end.getPosition(), guess_end.getPosition()],
+                map: map_end
+            });
+            }
+        }
+        let endbox = document.createElement("div");
+        endbox.classList.add("endbox");
+        endbox.innerHTML = `<h2>Gra skończona!</h2><table><tr><th>Runda</th><th>Odległość</th><th>Punkty</th></tr></table>`;
+        document.body.appendChild(endbox);
+        for(j = 1; j=runda;j++){
+            let odleglosc_end;
+            if(window.distances[j]){
+                odleglosc_end = window.distances[j];
+            }else{
+                odleglosc_end = "Brak";
+            }
+            let points_end;
+            if(window.points[j]){
+                points_end = window.points[j];
+            }else{
+                points_end = "Brak";
+            }
+            document.querySelector("table").innerHTML = document.querySelector("table").innerHTML+`<tr>
+                <td>${j}</td>
+                <td>${odleglosc_end}</td>
+                <td>${points_end}</td>
+            </tr>`;
+        }
     }
     else{
     document.getElementById("pano").innerHTML = "";
