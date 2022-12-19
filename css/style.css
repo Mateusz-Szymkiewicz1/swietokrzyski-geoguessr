@@ -2,7 +2,7 @@ body {
      font-family: 'Roboto', sans-serif;  
     padding: 0;
     margin: 0;
-        background: #404040;
+        background: #202020;
     overflow: hidden;
  }
  #pano {
@@ -104,6 +104,9 @@ a{
     top: 15px;
     right: 20px;
     z-index: 1;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    backdrop-filter: brightness(10);
 }
 .mapa{
     height: 17vh;
@@ -115,4 +118,8 @@ a{
     width: 35vw;
      height: 60vh;
 }
-
+.next{
+    border: 2px solid #fff;
+    border-radius: 50%;
+    backdrop-filter: brightness(10);
+}

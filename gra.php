@@ -16,7 +16,7 @@
    <a href="index.php"><img src="images/back.png" height="49px" width="50px" id="back"></a>
     <span id="runda">Runda 1/5</span>
     <div id="pano"></div>
-    <div class="kordy" onclick="kordy()" id="kordy"><img src="images/next.png" height="50px" width="50px"></div>
+    <div class="kordy" onclick="kordy()" id="kordy"><img src="images/next.png" height="50px" width="50px" class="next"></div>
     <div class="kordy" id="start" onclick="start()"><img src="images/start.png" height="50px" width="30px"></div>
     <div id="mapa" class="mapa"></div>
 </body>

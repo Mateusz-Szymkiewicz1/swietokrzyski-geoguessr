@@ -55,6 +55,9 @@ let distance;
 let sv;
 let runda = 1;
 let punkty = 0;
+window.markers_locations = [];
+window.markers_guesses = [];
+window.polylines = [];
 function initMap() { // funkcja odbywająca się wraz z startem strony
     let x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
     let y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy); //
@@ -116,7 +119,7 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
     );
     }// funkcja getPanorama szuka zdjęc streetview na lokalizacji 'kordynaty' w zasięgu 8000 metrów
     getPano();
-    google.maps.event.addListener(map, 'click', function (e) { // funkcja aktywuje się po kliknięciu na mapę
+    google.maps.event.addListener(map, 'dblclick', function (e) { // funkcja aktywuje się po kliknięciu na mapę
         if (licznik == 0) { // licznik - ilość postawionych znaczników, przyjmuje wartości 0, 1
             marker.setVisible(true);
             licznik = licznik + 1;
@@ -124,10 +127,12 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                 position: e.latLng, // e.latLng to kordynaty 'e' czyli miejsca eventu - kliknięcia
                 map,
             });
+            window.markers_guesses.push(marker2)
             odleglosc = new google.maps.Polyline({ // Polyline to obiekt linia pomiędzy dwoma punktami na mapie
                 path: [marker.getPosition(), marker2.getPosition()],
                 map: map
             });
+            window.polylines.push(odleglosc);
             distance = haversine_distance(marker, marker2);
             let distance2 = ((distance.toFixed(3)) * 1.6).toFixed(3);
             document.getElementById("runda").innerHTML = document.getElementById("runda").innerHTML +" - " + distance2 + " km";
@@ -158,6 +163,7 @@ function processSVData({
         animation: google.maps.Animation.DROP,
         icon: 'images/go.png',
     });
+    window.markers_locations.push(marker);
     marker.setVisible(false);
     panorama.setPano(location.pano); // ustawia panoramę
     panorama.setPov({
@@ -168,23 +174,23 @@ function processSVData({
 window.initMap = initMap;
 
 function kordy() { // losuje nowe kordy, czyści wszystkie divy
-    if(runda >= 5){
+    if(runda >= 1){
         document.getElementById("kordy").style.display = "none";
         document.getElementById("start").style.display = "none";
         if(high_score == null || punkty > high_score){
             document.cookie = "high_score="+punkty+"; expires=Thu, 18 Dec 2030 12:00:00 UTC;";
-            document.getElementById("runda").innerHTML = "Koniec gry - "+punkty+" pkt. " + "High score: "+punkty+" pkt.  "+`<a href="gra.php?map=${window.current_map}">Nowa gra</a>`;
+            high_score = punkty;
+        }else{
+            high_score = "Brak ;(";
         }
-        else{
-        document.getElementById("runda").innerHTML = "Koniec gry - "+punkty+" pkt. " + "High score: "+high_score+" pkt. "+`<a href="gra.php?map=${window.current_map}">Nowa gra</a>`;
-        }
+        document.getElementById("runda").innerHTML = "";
         document.getElementById("mapa").innerHTML = "";
         document.getElementById("mapa").style.border = "0";
         document.getElementById("pano").style.border = "2px solid #fff";
         document.getElementById("pano").style.background = "transparent";
         document.getElementById("pano").style.paddingTop = "100px";
         document.getElementById("pano").style.textAlign = "center";
-        document.getElementById("pano").innerHTML = '<img src="images/game_over.png" height="80%" width="50%">';
+        document.getElementById("pano").innerHTML = '';
     }
     else{
     document.getElementById("pano").innerHTML = "";
