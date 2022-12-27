@@ -52,6 +52,8 @@ if(isset($_SESSION['zalogowany'])){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/profil.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <?php
     ?>
@@ -61,16 +63,23 @@ if(isset($_SESSION['zalogowany'])){
  </div>
    <div class="bg_wrapper">
         <img src="images/<?=$bg?>" class="img_bg">
-        <button class="bg_button">Zmień</button>
+        <button class="bg_button"><label for="bg_file" form="bg_form"><i class="material-icons">create</i></label></button>
    </div>
    <div class="prof_wrapper">
        <img src="images/<?=$prof?>" class="img_prof">
+       <button class="prof_button"><i class="material-icons">create</i></button>
    </div>
    <span class="span_login"><?=$login?></span>
    <?php
     if($wlasciciel == 1){
-        echo '<script src="change_pic.js"></script>';
+        echo '<script src="change_pic.js" defer></script>';
     }
     ?>
+    
+<!-- formularz do zdjęcia w tle -->
+<form action="profil.php?login='.$login.'" method="post" enctype="multipart/form-data" id="bg_form" hidden>
+       <input type="file" name="bg_file" id="bg_file">
+       <input type="submit" value="Przeslij" id="bg_submit">
+</form>
 </body>
 </html>
