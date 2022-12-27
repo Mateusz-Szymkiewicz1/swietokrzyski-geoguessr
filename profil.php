@@ -5,6 +5,10 @@ $login = $_GET['login'] ?? null;
 $wlasciciel = 0;
 $prof = "";
 $bg = "";
+$rozegrane = 0;
+$ragequity = 0;
+$max_score = 0;
+$avg_score = 0;
 if($login == null){
     echo "<script>window.location.href='index.php'</script>";
     die;
@@ -20,6 +24,10 @@ if($login == null){
     $wiersz_user = $stmt->fetch(PDO::FETCH_ASSOC); 
     $prof = $wiersz_user['prof'];
     $bg = $wiersz_user['bg'];
+    $rozegrane = $wiersz_user['rozegrane'];
+    $ragequity = $wiersz_user['ragequity'];
+    $max_score = $wiersz_user['max_score'];
+    $avg_score = $wiersz_user['avg_score'];
     if($prof == ""){
         $prof = "user.png";
     }else{
@@ -74,12 +82,25 @@ if(isset($_SESSION['zalogowany'])){
     if($wlasciciel == 1){
         echo '<script src="change_pic.js" defer></script>';
     }
-    ?>
-    
+    ?>   
 <!-- formularz do zdjęcia w tle -->
 <form action="profil.php?login='.$login.'" method="post" enctype="multipart/form-data" id="bg_form" hidden>
        <input type="file" name="bg_file" id="bg_file">
        <input type="submit" value="Przeslij" id="bg_submit">
 </form>
+<table>
+    <tr>
+        <th>Gry rozegrane</th>
+        <th>Gry opuszczone</th>
+        <th>Średni wynik</th>
+        <th>Max wynik</th>
+    </tr>
+    <tr>
+        <td><?=$rozegrane?></td>
+        <td><?=$ragequity?></td>
+        <td><?=$avg_score?></td>
+        <td><?=$max_score?></td>
+    </tr>
+</table>
 </body>
 </html>

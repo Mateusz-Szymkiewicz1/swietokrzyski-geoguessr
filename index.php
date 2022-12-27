@@ -25,7 +25,7 @@ if(isset($_SESSION['zalogowany'])){
         <img src="favicon.ico" class="logo"><h1>Żiogeser<span class="dot">.</span></h1>
         <div class="buttons">
         <?php
-        if(isset($_SESSION['zalogowany'])){
+        if(isset($_SESSION['zalogowany'])&& isset($_SESSION['login'])){
             echo '<a href="profil.php?login='.$_SESSION['login'].'"><img src="images/user.png" class="prof_pic"><span class="span_login">'.$_SESSION['login'].'</span></a>';
         }else{
             echo '<a href="rej.php?form=log"><button class="login">Zaloguj</button></a>

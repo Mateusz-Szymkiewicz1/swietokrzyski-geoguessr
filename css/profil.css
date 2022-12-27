@@ -125,3 +125,23 @@ label{
     font-size: 45px;
     color: #fff;
 }
+table{
+    margin: auto;
+    text-align: center;
+    border: 2px solid #fff;
+    margin-top: 90px;
+    margin-bottom: 100px;
+}
+td{
+    border:2px solid #fff;
+    cursor: pointer;
+    transition: 0.4s;
+}
+td,th{
+    padding: 15px;
+    font-size: 28px;
+}
+td:hover{
+    background:  #03e9f4;
+    color: #fff;
+}
