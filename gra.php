@@ -1,3 +1,15 @@
+<?php
+require "connect.php";
+session_start();
+if(isset($_SESSION['zalogowany'])){
+    if($_SESSION['expire'] < time()){
+        session_destroy();
+        echo "<script>window.location.href='index.php'</script>";
+    }else{
+        $_SESSION['expire'] = time()+(15 * 60);
+    }
+}
+?>
 <html>
 <head>
     <meta charset="utf8">

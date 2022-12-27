@@ -26,7 +26,7 @@ if(isset($_SESSION['zalogowany'])){
         <div class="buttons">
         <?php
         if(isset($_SESSION['zalogowany'])){
-            echo '<a href="profil.php"><img src="images/user.png" class="prof_pic"><span class="span_login">'.$_SESSION['login'].'</span></a>';
+            echo '<a href="profil.php?login='.$_SESSION['login'].'"><img src="images/user.png" class="prof_pic"><span class="span_login">'.$_SESSION['login'].'</span></a>';
         }else{
             echo '<a href="rej.php?form=log"><button class="login">Zaloguj</button></a>
             <a href="rej.php?form=rej"><button class="rejestracja">Utwórz konto</button></a>';
