@@ -268,6 +268,17 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
                 <td>${points_end}</td>
             </tr>`;
         }
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText)
+                }
+            };
+            let login = document.querySelector("#login").innerText;
+            let ukonczone = document.querySelector("#ukonczone").innerText;
+            var url = "?login=" + login + "&ukonczone=" + ukonczone;
+            xmlhttp.open("GET", "ukonczone.php" + url, true);
+            xmlhttp.send();
     }
     else{
     document.getElementById("pano").innerHTML = "";

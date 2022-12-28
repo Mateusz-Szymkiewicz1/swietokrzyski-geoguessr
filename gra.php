@@ -10,12 +10,15 @@ if(isset($_SESSION['zalogowany'])){
         $_SESSION['expire'] = time()+(15 * 60);
     }
     $login = $_SESSION['login'];
+    echo '<span id="login" style="display: none;">'.$login.'</span>';
     $sql = "SELECT * FROM uzytkownicy WHERE login='$login';";
     $stmt = $db->prepare($sql);
     $stmt->execute();
     $wiersz = $stmt->fetch(PDO::FETCH_ASSOC);
     $rozegrane = $wiersz['rozegrane'];
     $rozegrane_new = $wiersz['rozegrane']+1;
+    $ukonczone = $wiersz['ukonczone'];
+    echo '<span id="ukonczone" style="display: none;">'.($ukonczone+1).'</span>';
     $sql = "UPDATE uzytkownicy SET rozegrane='$rozegrane_new' WHERE login='$login';";
     $stmt = $db->prepare($sql);
     $stmt->execute();

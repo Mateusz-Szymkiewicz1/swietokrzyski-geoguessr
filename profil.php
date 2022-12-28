@@ -31,7 +31,7 @@ if($login == null){
     $prof = $wiersz_user['prof'];
     $bg = $wiersz_user['bg'];
     $rozegrane = $wiersz_user['rozegrane'];
-    $ragequity = $wiersz_user['ragequity'];
+    $ragequity = $wiersz_user['rozegrane']-$wiersz_user['ukonczone'];
     $max_score = $wiersz_user['max_score'];
     $avg_score = $wiersz_user['avg_score'];
     if($prof == ""){
@@ -97,7 +97,7 @@ if(isset($_SESSION['zalogowany'])){
 <table>
     <tr>
         <th>Gry rozegrane</th>
-        <th>Gry opuszczone</th>
+        <th>Ragequity</th>
         <th>Średni wynik</th>
         <th>Max wynik</th>
     </tr>
