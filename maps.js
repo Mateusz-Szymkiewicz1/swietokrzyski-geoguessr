@@ -9,6 +9,7 @@ window.maps = {
             lat: 20,
             lng: 0,
         },
+        size: 500,
     },
     Polska: {
         minx: 14.10,
@@ -21,6 +22,7 @@ window.maps = {
             lat: 52,
             lng: 19.3,
         },
+        size: 60,
     },
     USA: {
         minx: -167,
@@ -33,6 +35,7 @@ window.maps = {
             lat: 40,
             lng: -100,
         },
+        size: 300,
     },
     UE:{
         minx: -9.5,
@@ -45,5 +48,6 @@ window.maps = {
             lat: 56,
             lng: 18,
         },
+        size: 250,
     }
 }

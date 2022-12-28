@@ -61,6 +61,7 @@ body {
      bottom: 20px;
      transition: 0.4s;
      transform: scale(1.3);
+     display: none;
  }
 .kordy:hover{
     transform: scale(1.2);

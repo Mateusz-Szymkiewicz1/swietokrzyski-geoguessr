@@ -9,6 +9,12 @@ $rozegrane = 0;
 $ragequity = 0;
 $max_score = 0;
 $avg_score = 0;
+$wyloguj = $_POST['wyloguj'] ?? null;
+if($wyloguj){
+    session_destroy();
+    echo "<script>window.location.href='index.php'</script>";
+    die;
+}
 if($login == null){
     echo "<script>window.location.href='index.php'</script>";
     die;
@@ -102,5 +108,13 @@ if(isset($_SESSION['zalogowany'])){
         <td><?=$max_score?></td>
     </tr>
 </table>
+<?php
+    if($wlasciciel == 1){
+        echo '<form action="profil.php?login='.$login.'" method="post" hidden><input type="text" name="wyloguj" value="1">
+            <input type="submit" id="wyloguj_submit">
+        </form>';
+        echo '<label for="wyloguj_submit" class="wyloguj_label">Wyloguj</label>';
+    }
+?>
 </body>
 </html>

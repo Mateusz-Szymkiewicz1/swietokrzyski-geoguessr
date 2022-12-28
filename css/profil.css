@@ -145,3 +145,11 @@ td:hover{
     background:  #03e9f4;
     color: #fff;
 }
+.wyloguj_label{
+    display: block;
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 50px;
+    margin-top: -20px;
+    color: #d63031;
+}

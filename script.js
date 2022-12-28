@@ -9,9 +9,7 @@
 //            xmlHttp.send(null);
 const urlParams = new URLSearchParams(window.location.search);
 window.current_map = urlParams.get("map");
-let map_sizeY = Math.abs(window.maps[window.current_map].maxy-window.maps[window.current_map].miny);
-let map_sizeX = Math.abs(window.maps[window.current_map].maxx-window.maps[window.current_map].minx);
-let map_size = (map_sizeX+map_sizeY)/2;
+let map_size = window.maps[window.current_map].size;
 function randomFloat(min, max) {
     return (Math.random() * (max - min)) + min; // funkcja tworząca losowe floaty
 }
@@ -98,7 +96,12 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                     let response = JSON.parse(xmlHttp.response);
                     if(window.current_map != "Świat"){
                         if(window.maps[window.current_map].countries.indexOf(response.address.CountryCode) >= 0){
-                            processSVData(res);
+                            processSVData(res).then(function(response){
+                                document.getElementById("kordy").style.display = "block";
+                                document.getElementById("start").style.display = "block";
+                                }, function(error){
+                                    console.log(error)
+                                });
                         }else{
                             x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
                             y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
@@ -109,7 +112,12 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                             getPano();
                         }
                     }else{
-                        processSVData(res);
+                        processSVData(res).then(function(response){
+                            document.getElementById("kordy").style.display = "block";
+                            document.getElementById("start").style.display = "block";
+                            }, function(error){
+                                console.log(error)
+                            });
                     }
                 }
             }
@@ -145,11 +153,13 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
             distance = haversine_distance(marker, marker2);
             let distance2 = ((distance.toFixed(3)) * 1.6).toFixed(3);
             window.distances.push(distance2);
-            document.getElementById("runda").innerHTML = document.getElementById("runda").innerHTML +" - " + distance2 + " km";
-            let punkty_now = 10000/parseInt(distance2)*Math.sqrt(map_size); 
-            let punkty_setki = punkty_now/100;
-            punkty_now = punkty_now*punkty_setki;
+            // size 100 - 1 punkt na 100 metrów
+            let punkty_now = Math.round(5000-(distance2*1000/map_size));
+            if(punkty_now < 0){
+                punkty_now = 0;
+            }
             window.points.push(punkty_now);
+            document.getElementById("runda").innerHTML = document.getElementById("runda").innerHTML +" - " + distance2 + ` km (${punkty_now}pkt)`;
             punkty += Math.round(punkty_now);
         }
     });
@@ -161,7 +171,7 @@ function start() {
     window.getPano();
 }
 
-function processSVData({
+async function processSVData({
     data
 }) {
     let location = data.location;
@@ -180,7 +190,7 @@ function processSVData({
     panorama.setPov({
         heading: 270,
         pitch: 0,
-    });
+    })
 }
 window.initMap = initMap;
 

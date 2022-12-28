@@ -1,6 +1,7 @@
 <?php
 require "connect.php";
 session_start();
+$wiersz = [];
 if(isset($_SESSION['zalogowany'])){
     if($_SESSION['expire'] < time()){
         session_destroy();
@@ -8,6 +9,16 @@ if(isset($_SESSION['zalogowany'])){
     }else{
         $_SESSION['expire'] = time()+(15 * 60);
     }
+    $login = $_SESSION['login'];
+    $sql = "SELECT * FROM uzytkownicy WHERE login='$login';";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $wiersz = $stmt->fetch(PDO::FETCH_ASSOC);
+    $rozegrane = $wiersz['rozegrane'];
+    $rozegrane_new = $wiersz['rozegrane']+1;
+    $sql = "UPDATE uzytkownicy SET rozegrane='$rozegrane_new' WHERE login='$login';";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
 }
 ?>
 <html>
