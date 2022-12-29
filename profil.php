@@ -1,3 +1,15 @@
+<html>
+<head>
+    <meta charset="utf8">
+    <title>Żiogeser - Profil</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/profil.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 <?php
 require "connect.php";
 session_start();
@@ -19,6 +31,7 @@ if($login == null){
     echo "<script>window.location.href='index.php'</script>";
     die;
 }else{
+    if($error == 0){
    $sql = "SELECT * FROM uzytkownicy WHERE login='$login';";
     $stmt = $db->prepare($sql);
     $stmt->execute();
@@ -44,6 +57,9 @@ if($login == null){
     }else{
         $bg = "user_uploads/".$login."/".$bg;
     }
+    }else{
+        die;
+    }
 }
 if(isset($_SESSION['zalogowany'])){
     if($_SESSION['expire'] < time()){
@@ -57,20 +73,6 @@ if(isset($_SESSION['zalogowany'])){
     }
 }
 ?>
-<html>
-<head>
-    <meta charset="utf8">
-    <title>Żiogeser - Profil</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/profil.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<?php
-    ?>
 <body id="body">
  <div class="top_bar">
      <a href="index.php"><img src="favicon.ico"><span>Żiogeser</span></a>

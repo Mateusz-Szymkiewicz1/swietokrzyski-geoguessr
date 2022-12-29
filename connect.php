@@ -7,7 +7,7 @@ try {
   ));
 }
 catch(PDOException $e) {
-    echo '<div class="error"> Błąd '.$e->getCode().' '." - Nie udało się połączyć z bazą".'</div>';
+    echo '<div class="error"> Błąd '.$e->getCode().' '.' - Nie udało się połączyć z bazą<br /><a href="index.php">Wróć na stronę główną</a>'.'</div>';
     $error = 1;
 }
 ?>
