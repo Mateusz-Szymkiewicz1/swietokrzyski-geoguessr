@@ -99,6 +99,7 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                             processSVData(res).then(function(response){
                                 document.getElementById("kordy").style.display = "block";
                                 document.getElementById("start").style.display = "block";
+                                document.getElementById("mapa").style.display = "block";
                                 }, function(error){
                                     console.log(error)
                                 });
@@ -115,6 +116,7 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                         processSVData(res).then(function(response){
                             document.getElementById("kordy").style.display = "block";
                             document.getElementById("start").style.display = "block";
+                            document.getElementById("mapa").style.display = "block";
                             }, function(error){
                                 console.log(error)
                             });

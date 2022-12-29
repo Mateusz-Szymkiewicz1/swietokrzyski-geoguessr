@@ -38,13 +38,8 @@ body {
  .gm-fullscreen-control {
      display: none;
  }
-
  .gmnoprint {
      filter: invert();
- }
-
- .gm-style > div > div > div:first-of-type {
-     display: none;
  }
 #kordy{
     margin-left: 1vw;
@@ -79,6 +74,7 @@ body {
      position: absolute;
      bottom: 0px;
      right: 70px;
+     display: none;
  }
  #start {
      margin-left: 7.5vw;
