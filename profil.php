@@ -46,7 +46,11 @@ if($login == null){
     $rozegrane = $wiersz_user['rozegrane'];
     $ragequity = $wiersz_user['rozegrane']-$wiersz_user['ukonczone'];
     $max_score = $wiersz_user['max_score'];
-    $avg_score = $wiersz_user['avg_score'];
+    if($wiersz_user['ukonczone'] > 0){
+        $avg_score = $wiersz_user['sum_score']/$wiersz_user['ukonczone'];
+    }else{
+        $avg_score = 0;
+    }
     if($prof == ""){
         $prof = "user.png";
     }else{

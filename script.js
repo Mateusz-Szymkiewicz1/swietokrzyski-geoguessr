@@ -276,7 +276,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
             };
             let login = document.querySelector("#login").innerText;
             let ukonczone = document.querySelector("#ukonczone").innerText;
-            var url = "?login=" + login + "&ukonczone=" + ukonczone;
+            var url = "?login=" + login + "&ukonczone=" + ukonczone + "&wynik=" + punkty;
             xmlhttp.open("GET", "ukonczone.php" + url, true);
             xmlhttp.send();
     }

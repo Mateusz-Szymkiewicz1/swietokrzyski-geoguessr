@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 28 Gru 2022, 22:08
+-- Czas generowania: 29 Gru 2022, 11:59
 -- Wersja serwera: 10.3.15-MariaDB
 -- Wersja PHP: 7.3.6
 
@@ -41,7 +41,6 @@ CREATE TABLE `uzytkownicy` (
   `rozegrane` int(11) NOT NULL,
   `ukonczone` int(11) NOT NULL,
   `max_score` int(11) NOT NULL,
-  `avg_score` int(11) NOT NULL,
   `sum_score` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
@@ -49,8 +48,8 @@ CREATE TABLE `uzytkownicy` (
 -- Zrzut danych tabeli `uzytkownicy`
 --
 
-INSERT INTO `uzytkownicy` (`id`, `login`, `haslo`, `email`, `prof`, `bg`, `rozegrane`, `ukonczone`, `max_score`, `avg_score`, `sum_score`) VALUES
-(3, 'admin', '$2y$10$PrNfm81cw/hCWbZ4QXoO4uzq.tQ05r/794KHqWBi6l6qzNpblryDu', 'admin@wp.pl', '', '', 51, 50, 0, 0, 0);
+INSERT INTO `uzytkownicy` (`id`, `login`, `haslo`, `email`, `prof`, `bg`, `rozegrane`, `ukonczone`, `max_score`, `sum_score`) VALUES
+(3, 'admin', '$2y$10$PrNfm81cw/hCWbZ4QXoO4uzq.tQ05r/794KHqWBi6l6qzNpblryDu', 'admin@wp.pl', '', '', 3, 3, 7615, 14394);
 
 --
 -- Indeksy dla zrzutów tabel
