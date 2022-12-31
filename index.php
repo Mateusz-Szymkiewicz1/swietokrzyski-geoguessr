@@ -7,6 +7,17 @@ if(isset($_SESSION['zalogowany'])){
         echo "<script>window.location.href='index.php'</script>";
     }else{
         $_SESSION['expire'] = time()+(15 * 60);
+        $login = $_SESSION['login'];
+        echo '<span class="login" hidden>'.$_SESSION['login'].'</span>';
+        $sql = "SELECT * FROM uzytkownicy WHERE login='$login';";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $wiersz = $stmt->fetch(PDO::FETCH_ASSOC);
+        $fav_maps = $wiersz['fav_maps'];
+        if($fav_maps != ""){
+            echo '<script>window.fav_maps = "'.$fav_maps.'"</script>';
+            echo '<script src="set_favs.js" defer></script>';
+        }
     }
 }
 ?>
@@ -20,6 +31,11 @@ if(isset($_SESSION['zalogowany'])){
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
 </head>
+<?php
+    if(isset($_SESSION['zalogowany'])&& isset($_SESSION['login'])){
+        echo '<script src="index.js" defer></script>';
+    }
+?>
 <body>
     <div class="top_bar">
         <img src="favicon.ico" class="logo"><h1>Żiogeser<span class="dot">.</span></h1>
@@ -38,8 +54,8 @@ if(isset($_SESSION['zalogowany'])){
     <section class="cards">
 <article class="card card--1">
   <div class="card__info-hover">
-    <svg class="card__like"  viewBox="0 0 24 24">
-    <path fill="#ffffff" d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z" />
+    <svg class="card__like"  viewBox="0 0 24 24" data-map="Świat">
+    <path fill="#ffffff" viewBox="0 0 24 24" d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
 </svg>
       <div class="card__clock-info">
         <span class="card__time" style="color:#d63031;">Trudna</span>
@@ -59,8 +75,8 @@ if(isset($_SESSION['zalogowany'])){
 </article>
  <article class="card card--2">
   <div class="card__info-hover">
-    <svg class="card__like"  viewBox="0 0 24 24">
-    <path fill="#ffffff" d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z" />
+    <svg class="card__like"  viewBox="0 0 24 24" data-map="Polska">
+    <path fill="#ffffff" viewBox="0 0 24 24" d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
 </svg>
       <div class="card__clock-info">
         <span class="card__time" style="color: #2ecc71;">Łatwa</span>
@@ -80,8 +96,8 @@ if(isset($_SESSION['zalogowany'])){
 </article> 
  <article class="card card--3">
   <div class="card__info-hover">
-    <svg class="card__like"  viewBox="0 0 24 24">
-    <path fill="#ffffff" d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z" />
+    <svg class="card__like"  viewBox="0 0 24 24" data-map="UE">
+    <path fill="#ffffff" viewBox="0 0 24 24" d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
 </svg>
       <div class="card__clock-info">
         <span class="card__time" style="color: #f1c40f;">Średnia</span>
@@ -101,8 +117,8 @@ if(isset($_SESSION['zalogowany'])){
 </article> 
   <article class="card card--4">
   <div class="card__info-hover">
-    <svg class="card__like"  viewBox="0 0 24 24">
-    <path fill="#ffffff" d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z" />
+    <svg class="card__like"  viewBox="0 0 24 24" data-map="USA">
+    <path fill="#ffffff" viewBox="0 0 24 24" d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
 </svg>
       <div class="card__clock-info">
         <span class="card__time" style="color: #f1c40f;">Średnia</span>
