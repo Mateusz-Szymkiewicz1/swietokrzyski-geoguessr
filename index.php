@@ -110,7 +110,7 @@ if(isset($_SESSION['zalogowany'])){
    </a>
    <a href="gra.php?map=UE">
   <div class="card__info">
-    <span class="card__category">Unia Europejska</span>
+    <span class="card__category">UE</span>
     <h3 class="card__title">Lorem Ipsum dolor sit amet</h3>
   </div>
   </a>

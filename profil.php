@@ -6,7 +6,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/profil.css">
+    <link rel="stylesheet" href="css/index.css">
+      <link rel="stylesheet" href="css/profil.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -46,6 +47,9 @@ if($login == null){
     $rozegrane = $wiersz_user['rozegrane'];
     $ragequity = $wiersz_user['rozegrane']-$wiersz_user['ukonczone'];
     $max_score = $wiersz_user['max_score'];
+    $fav_maps = $wiersz_user['fav_maps'];
+    $fav_maps_tab = explode(",",$fav_maps);
+    array_pop($fav_maps_tab);
     if($wiersz_user['ukonczone'] > 0){
         $avg_score = $wiersz_user['sum_score']/$wiersz_user['ukonczone'];
     }else{
@@ -114,6 +118,66 @@ if(isset($_SESSION['zalogowany'])){
         <td><?=$max_score?></td>
     </tr>
 </table>
+<h2>Ulubione mapy</h2>
+<?php
+    if($fav_maps != ""){
+        echo '<div class="cards">';
+    }
+    foreach ($fav_maps_tab as $map) {
+        if($map == "Świat"){
+           $map_desc = "Lorem Ipsum";
+           $map_level = "Trudna";
+           $map_picture = 1;
+       }
+       if($map == "Polska"){
+           $map_desc = "Lorem Ipsum";
+           $map_level = "Łatwa";
+           $map_picture = 2;
+       }
+         if($map == "UE"){
+           $map_desc = "Lorem Ipsum";
+           $map_level = "Średnia";
+           $map_picture = 3;
+       }
+         if($map == "USA"){
+           $map_desc = "Lorem Ipsum";
+           $map_level = "Średnia";
+           $map_picture = 4;
+       }
+      switch($map_level){
+          case "Łatwa":
+              $level_color = "#2ecc71";
+              break;
+           case "Średnia":
+              $level_color = "#f1c40f";
+              break;
+            case "Trudna":
+              $level_color = "#d63031";
+              break;
+      }
+       echo '<article class="card card--'.$map_picture.'">
+          <div class="card__info-hover">
+              <div class="card__clock-info">
+                <span class="card__time" style="color:'.$level_color.';">'.$map_level.'</span>
+              </div>
+
+          </div>
+          <div class="card__img"></div>
+          <a href="gra.php?map='.$map.'" class="card_link">
+             <div class="card__img--hover"></div>
+           </a>
+           <a href="gra.php?map='.$map.'">
+          <div class="card__info">
+            <span class="card__category">'.$map.'</span>
+            <h3 class="card__title">'.$map_desc.'</h3>
+          </div>
+          </a>
+        </article>';
+    }
+    if($fav_maps != ""){
+        echo '</div>';
+    }
+?>
 <?php
     if($wlasciciel == 1){
         echo '<form action="profil.php?login='.$login.'" method="post" hidden><input type="text" name="wyloguj" value="1">
