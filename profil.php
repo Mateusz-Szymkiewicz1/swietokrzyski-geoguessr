@@ -15,6 +15,7 @@
 require "connect.php";
 session_start();
 $login = $_GET['login'] ?? null;
+echo '<span id="login" hidden>'.$login.'</span>';
 $wlasciciel = 0;
 $prof = "";
 $bg = "";
@@ -118,10 +119,9 @@ if(isset($_SESSION['zalogowany'])){
         <td><?=$max_score?></td>
     </tr>
 </table>
-<h2>Ulubione mapy</h2>
 <?php
     if($fav_maps != ""){
-        echo '<div class="cards">';
+        echo '<h2>Ulubione mapy</h2><div class="cards">';
     }
     foreach ($fav_maps_tab as $map) {
         if($map == "Świat"){
@@ -156,8 +156,13 @@ if(isset($_SESSION['zalogowany'])){
               break;
       }
        echo '<article class="card card--'.$map_picture.'">
-          <div class="card__info-hover">
-              <div class="card__clock-info">
+          <div class="card__info-hover">';
+        if($wlasciciel == 1){
+          echo '<svg class="card__like"  viewBox="0 0 24 24" data-map="'.$map.'">
+           <path data-map="'.$map.'" fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" fill="white"></path>
+        </svg>';
+        }
+        echo '<div class="card__clock-info">
                 <span class="card__time" style="color:'.$level_color.';">'.$map_level.'</span>
               </div>
 
@@ -186,5 +191,25 @@ if(isset($_SESSION['zalogowany'])){
         echo '<label for="wyloguj_submit" class="wyloguj_label">Wyloguj</label>';
     }
 ?>
+<script>
+    document.addEventListener("click", function(e){
+    if(e.target.className.baseVal == ""){
+        e.target.parentElement.parentElement.parentElement.remove();
+        if(!document.querySelector(".cards").innerHTML){
+            document.querySelector("h2").remove();
+        }
+        var xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() { 
+                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            
+                    }
+                }
+                let login = document.querySelector("#login").innerText;
+                let map = e.target.dataset.map;
+                xmlHttp.open("GET", `add_fav_map.php?login=${login}&map=${map}&type=remove`, true);
+                xmlHttp.send(null);
+    }
+})
+</script>
 </body>
 </html>
