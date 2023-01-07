@@ -79,7 +79,7 @@ body {
  #start {
      margin-left: 7.5vw;
  }
-span{
+#runda{
     margin-bottom: 20px;
     font-size: 32px;
     color: #fff;
@@ -165,4 +165,32 @@ h3{
 tr:hover td{
     background: #03e9f4;;
     color: #fff;
+}
+.runda{
+     color: #fff;
+font-size: 34px;
+    z-index: 2000;
+    display: block;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.runda button{
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    outline: none;
+    margin-top: 20px;
+    font-size: 22px;
+    padding: 12px;
+    transition: 0.4s;
+    cursor: pointer;
+}
+.runda button:hover{
+    background: #fff;
+    color: #101010;
 }

@@ -92,6 +92,9 @@ a{
 .card--4 .card__img, .card--4 .card__img--hover {
     background-image: url('../images/usa.jpg');
 }
+.card--5 .card__img, .card--5 .card__img--hover {
+    background-image: url('../images/cs.jpg');
+}
 .card__like {
     transform: scale(1.3);
     margin-top: 5px;

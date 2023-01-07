@@ -20,27 +20,7 @@ function LightenDarkenColor(col, amt) {
   var g = (num & 0x0000FF) + amt;
   var newColor = g | (b << 8) | (r << 16);
   return newColor.toString(16);
-}
-
-function getCookie(name) {
-    var dc = document.cookie;
-    var prefix = name + "=";
-    var begin = dc.indexOf("; " + prefix);
-    if (begin == -1) {
-        begin = dc.indexOf(prefix);
-        if (begin != 0) return null;
-    }
-    else
-    {
-        begin += 2;
-        var end = document.cookie.indexOf(";", begin);
-        if (end == -1) {
-        end = dc.length;
-        }
-    }
-    return decodeURI(dc.substring(begin + prefix.length, end));
 } 
-let high_score = getCookie("high_score");
 function haversine_distance(mk1, mk2) {
     // funkcja obliczająca odległość między punktami na mapie przy użyciu obwodu ziemi
     // wzięta z dokumentacji google
@@ -201,7 +181,6 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         document.getElementById("kordy").style.display = "none";
         document.getElementById("start").style.display = "none";
         if(high_score == null || punkty > high_score){
-            document.cookie = "high_score="+punkty+"; expires=Thu, 18 Dec 2030 12:00:00 UTC;";
             high_score = punkty;
         }else{
             high_score = "Brak ;(";

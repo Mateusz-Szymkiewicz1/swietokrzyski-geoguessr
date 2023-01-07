@@ -1,3 +1,13 @@
+<html>
+<head>
+    <meta charset="utf8">
+    <title>Żiogeser - Strona główna</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+</head>
 <?php
 require "connect.php";
 session_start();
@@ -21,16 +31,6 @@ if(isset($_SESSION['zalogowany'])){
     }
 }
 ?>
-<html>
-<head>
-    <meta charset="utf8">
-    <title>Żiogeser - Strona główna</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/index.css">
-</head>
 <?php
     if(isset($_SESSION['zalogowany'])&& isset($_SESSION['login'])){
         echo '<script src="index.js" defer></script>';
@@ -137,5 +137,20 @@ if(isset($_SESSION['zalogowany'])){
   </a>
 </article>
   </section>
+  <h2 class="h2_mapy">Country Streak</h2>
+  <section class="cards">
+  <article class="card card--5">
+  <div class="card__img"></div>
+  <a href="country_streak.php" class="card_link">
+     <div class="card__img--hover"></div>
+   </a>
+   <a href="country_streak.php">
+  <div class="card__info">
+    <span class="card__category">Country Streak</span>
+    <h3 class="card__title">Lorem Ipsum dolor sit amet</h3>
+  </div>
+  </a>
+</article>
+</section>
 </body>
 </html>
