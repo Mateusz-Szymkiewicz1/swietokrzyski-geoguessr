@@ -46,6 +46,14 @@ if($login == null){
     $prof = $wiersz_user['prof'];
     $bg = $wiersz_user['bg'];
     $rozegrane = $wiersz_user['rozegrane'];
+    $cs_games = $wiersz_user['cs_games'];
+    $cs_max = $wiersz_user['cs_max'];
+    $cs_sum = $wiersz_user['cs_sum'];
+    if($cs_sum == 0){
+        $cs_avg = 0;
+    }else{
+         $cs_avg = $cs_sum/$cs_games;
+    }
     $ragequity = $wiersz_user['rozegrane']-$wiersz_user['ukonczone'];
     $max_score = $wiersz_user['max_score'];
     $fav_maps = $wiersz_user['fav_maps'];
@@ -117,6 +125,19 @@ if(isset($_SESSION['zalogowany'])){
         <td><?=$ragequity?></td>
         <td><?=$avg_score?></td>
         <td><?=$max_score?></td>
+    </tr>
+</table>
+<h2>Country Streak</h2>
+<table>
+    <tr>
+        <th>CS Rozegrane</th>
+        <th>CS Rekord</th>
+        <th>CS Średnia</th>
+    </tr>
+    <tr>
+        <td><?=$cs_games?></td>
+        <td><?=$cs_max?></td>
+        <td><?=$cs_avg?></td>
     </tr>
 </table>
 <?php

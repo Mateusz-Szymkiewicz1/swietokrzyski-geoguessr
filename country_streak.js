@@ -47,7 +47,7 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                             lng: x
                         };
                         getPano();
-                    }
+                    }else{
                     window.current_country = response.address.CountryCode;
                         processSVData(res).then(function(response){
                             document.getElementById("start").style.display = "block";
@@ -55,6 +55,7 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                             }, function(error){
                                 console.log(error)
                             });
+                    }
                 }
             }
         let coords = res.data.location.latLng.toString().slice(1).slice(0,-1);
@@ -98,6 +99,26 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                        document.querySelector("#kordy").style.display = "block";
                         runda++;
                         document.querySelector("#runda").innerHTML = "Streak : "+runda;
+                        if(document.querySelector("#login")){
+                        let cs_max = parseInt(document.querySelector("#cs_max").innerText);
+                        let login = document.querySelector("#login").innerText;
+                        if(runda > cs_max){
+                            var xmlHttp2 = new XMLHttpRequest();
+                            xmlHttp2.onreadystatechange = function() { 
+                                if (xmlHttp2.readyState == 4 && xmlHttp2.status == 200){
+                                    
+                                }
+                            }
+                            xmlHttp2.open("GET", `set_cs_max.php?login=${login}&cs_max=${runda}&type=max`, true);
+                            xmlHttp2.send(null);
+                        }
+                        window.cs_sum++;
+                            var xmlHttp3 = new XMLHttpRequest();
+                            xmlHttp3.onreadystatechange = function() { 
+                            }
+                            xmlHttp3.open("GET", `set_cs_max.php?login=${login}&cs_sum=${window.cs_sum}&type=sum`, true);
+                            xmlHttp3.send(null);
+                        }
                     }else{
                         document.querySelector("#runda").innerHTML = "Streak : "+runda+" - Koniec";
                         document.getElementById("pano").innerHTML = "";

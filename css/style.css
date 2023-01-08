@@ -75,6 +75,7 @@ body {
      bottom: 0px;
      right: 70px;
      display: none;
+     z-index: 2001;
  }
  #start {
      margin-left: 7.5vw;
