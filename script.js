@@ -180,11 +180,6 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
     if(runda >= 5){
         document.getElementById("kordy").style.display = "none";
         document.getElementById("start").style.display = "none";
-        if(high_score == null || punkty > high_score){
-            high_score = punkty;
-        }else{
-            high_score = "Brak ;(";
-        }
         document.getElementById("runda").innerHTML = "";
         document.getElementById("mapa").innerHTML = "";
         document.getElementById("mapa").style.border = "0";
@@ -249,6 +244,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
                 <td>${points_end}</td>
             </tr>`;
         }
+        if(document.querySelector("#login")){
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
@@ -260,6 +256,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
             var url = "?login=" + login + "&ukonczone=" + ukonczone + "&wynik=" + punkty;
             xmlhttp.open("GET", "ukonczone.php" + url, true);
             xmlhttp.send();
+        }
     }
     else{
     document.getElementById("pano").innerHTML = "";
