@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 08 Sty 2023, 12:39
+-- Czas generowania: 19 Sty 2023, 20:16
 -- Wersja serwera: 10.3.15-MariaDB
 -- Wersja PHP: 7.3.6
 
@@ -36,8 +36,6 @@ CREATE TABLE `uzytkownicy` (
   `login` text COLLATE utf8_polish_ci NOT NULL,
   `haslo` text COLLATE utf8_polish_ci NOT NULL,
   `email` text COLLATE utf8_polish_ci NOT NULL,
-  `prof` text COLLATE utf8_polish_ci NOT NULL,
-  `bg` text COLLATE utf8_polish_ci NOT NULL,
   `rozegrane` int(11) NOT NULL,
   `ukonczone` int(11) NOT NULL,
   `max_score` int(11) NOT NULL,
@@ -52,8 +50,8 @@ CREATE TABLE `uzytkownicy` (
 -- Zrzut danych tabeli `uzytkownicy`
 --
 
-INSERT INTO `uzytkownicy` (`id`, `login`, `haslo`, `email`, `prof`, `bg`, `rozegrane`, `ukonczone`, `max_score`, `sum_score`, `fav_maps`, `cs_games`, `cs_max`, `cs_sum`) VALUES
-(3, 'admin', '$2y$10$PrNfm81cw/hCWbZ4QXoO4uzq.tQ05r/794KHqWBi6l6qzNpblryDu', 'admin@wp.pl', '', '', 22, 3, 7615, 14394, 'Świat,UE,', 5, 6, 9);
+INSERT INTO `uzytkownicy` (`id`, `login`, `haslo`, `email`, `rozegrane`, `ukonczone`, `max_score`, `sum_score`, `fav_maps`, `cs_games`, `cs_max`, `cs_sum`) VALUES
+(3, 'admin', '$2y$10$PrNfm81cw/hCWbZ4QXoO4uzq.tQ05r/794KHqWBi6l6qzNpblryDu', 'admin@wp.pl', 22, 3, 7615, 14394, 'Świat,UE,', 7, 6, 9);
 
 --
 -- Indeksy dla zrzutów tabel

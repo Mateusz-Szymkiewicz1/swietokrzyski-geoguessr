@@ -17,8 +17,6 @@ session_start();
 $login = $_GET['login'] ?? null;
 echo '<span id="login" hidden>'.$login.'</span>';
 $wlasciciel = 0;
-$prof = "";
-$bg = "";
 $rozegrane = 0;
 $ragequity = 0;
 $max_score = 0;
@@ -43,8 +41,6 @@ if($login == null){
         die;
     }
     $wiersz_user = $stmt->fetch(PDO::FETCH_ASSOC); 
-    $prof = $wiersz_user['prof'];
-    $bg = $wiersz_user['bg'];
     $rozegrane = $wiersz_user['rozegrane'];
     $cs_games = $wiersz_user['cs_games'];
     $cs_max = $wiersz_user['cs_max'];
@@ -52,7 +48,7 @@ if($login == null){
     if($cs_sum == 0){
         $cs_avg = 0;
     }else{
-         $cs_avg = $cs_sum/$cs_games;
+         $cs_avg = round($cs_sum/$cs_games, 2);
     }
     $ragequity = $wiersz_user['rozegrane']-$wiersz_user['ukonczone'];
     $max_score = $wiersz_user['max_score'];
@@ -63,16 +59,6 @@ if($login == null){
         $avg_score = $wiersz_user['sum_score']/$wiersz_user['ukonczone'];
     }else{
         $avg_score = 0;
-    }
-    if($prof == ""){
-        $prof = "user.png";
-    }else{
-        $prof = "user_uploads/".$login."/".$prof;
-    }
-    if($bg == ""){
-        $bg = "bg.jpg";
-    }else{
-        $bg = "user_uploads/".$login."/".$bg;
     }
     }else{
         die;
@@ -92,27 +78,84 @@ if(isset($_SESSION['zalogowany'])){
 ?>
 <body id="body">
  <div class="top_bar">
-     <a href="index.php"><img src="favicon.ico"><span>Żiogeser</span></a>
+     <a href="index.php" draggable="false"><img draggable="false" src="favicon.ico"><span>Żiogeser</span></a>
  </div>
    <div class="bg_wrapper">
-        <img src="images/<?=$bg?>" class="img_bg">
+        <?php
+            if(is_dir("user_uploads/".$login)){
+                if(file_exists("user_uploads/".$login."/bg.jpg")){
+                    echo '<img src="'."user_uploads/".$login."/bg.jpg".'" class="img_bg">';
+                }
+                else if(file_exists("user_uploads/".$login."/bg.png")){
+                    echo '<img src="'."user_uploads/".$login."/bg.png".'" class="img_bg">';
+                }else{
+                    echo '<img src="images/bg.jpg" class="img_bg">';
+                }
+            }else{
+               echo '<img src="images/bg.jpg" class="img_bg">';  
+            }
+        ?>  
         <button class="bg_button"><label for="bg_file" form="bg_form"><i class="material-icons">create</i></label></button>
+        <button class="bg_button" id="delete_bg"><label for="bg_submit"><i class="material-icons">close</i></label></button>
    </div>
    <div class="prof_wrapper">
-       <img src="images/<?=$prof?>" class="img_prof">
+       <img src="images/user.png" class="img_prof">
        <button class="prof_button"><i class="material-icons">create</i></button>
    </div>
    <span class="span_login"><?=$login?></span>
    <?php
     if($wlasciciel == 1){
-        echo '<script src="change_pic.js" defer></script>';
+        echo '<script src="js/change_pic.js" defer></script>';
     }
     ?>   
 <!-- formularz do zdjęcia w tle -->
-<form action="profil.php?login='.$login.'" method="post" enctype="multipart/form-data" id="bg_form" hidden>
+<form action="profil.php?login=<?=$login?>" method="post" enctype="multipart/form-data" id="bg_form" hidden>
        <input type="file" name="bg_file" id="bg_file">
+       <input type="text" value="1" name="bg_submit">
        <input type="submit" value="Przeslij" id="bg_submit">
 </form>
+<?php
+$bg_submit = $_POST['bg_submit'] ?? null;
+if($bg_submit){
+    if($_FILES['bg_file']["name"] == ""){
+        if(file_exists("user_uploads/".$login."/bg.jpg")){
+            unlink("user_uploads/".$login."/bg.jpg");
+            echo "<script>window.location.href='profil.php?login=".$login."';</script>";
+        }
+        if(file_exists("user_uploads/".$login."/bg.png")){
+            unlink("user_uploads/".$login."/bg.png");
+            echo "<script>window.location.href='profil.php?login=".$login."';</script>";
+        }
+    }else{
+        if(!is_dir("user_uploads/".$login)){
+            mkdir("user_uploads/".$login, 0700);
+        }
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        if(false === $ext = array_search(
+            $finfo->file($_FILES['bg_file']['tmp_name']),
+            array(
+                'jpg' => 'image/jpeg',
+                'png' => 'image/png',
+            ),
+            true
+        )) {
+            echo "Złe rozszerzenie pliku!";
+        }else{
+            if ($_FILES['bg_file']['size'] > 2000000) {
+                echo "Plik za duży!";
+            }else{
+                if($_FILES['bg_file']["type"] == "image/jpeg"){
+                    $type = ".jpg";
+                }else{
+                    $type = ".png";
+                }
+                move_uploaded_file($_FILES["bg_file"]["tmp_name"], "user_uploads/".$login."/bg".$type);
+                echo "<script>window.location.href='profil.php?login=".$login."';</script>";
+            }
+        }
+    }
+}
+?>
 <table>
     <tr>
         <th>Gry rozegrane</th>
@@ -189,10 +232,10 @@ if(isset($_SESSION['zalogowany'])){
 
           </div>
           <div class="card__img"></div>
-          <a href="gra.php?map='.$map.'" class="card_link">
+          <a href="gra.php?map='.$map.'" class="card_link" draggable="false">
              <div class="card__img--hover"></div>
            </a>
-           <a href="gra.php?map='.$map.'">
+           <a href="gra.php?map='.$map.'" draggable="false">
           <div class="card__info">
             <span class="card__category">'.$map.'</span>
             <h3 class="card__title">'.$map_desc.'</h3>

@@ -26,23 +26,23 @@ if(isset($_SESSION['zalogowany'])){
         $fav_maps = $wiersz['fav_maps'];
         if($fav_maps != ""){
             echo '<script>window.fav_maps = "'.$fav_maps.'"</script>';
-            echo '<script src="set_favs.js" defer></script>';
+            echo '<script src="js/set_favs.js" defer></script>';
         }
     }
 }
 ?>
 <?php
     if(isset($_SESSION['zalogowany'])&& isset($_SESSION['login'])){
-        echo '<script src="index.js" defer></script>';
+        echo '<script src="js/index.js" defer></script>';
     }
 ?>
 <body>
     <div class="top_bar">
-        <img src="favicon.ico" class="logo"><h1>Żiogeser<span class="dot">.</span></h1>
+        <img src="favicon.ico" class="logo" draggable="false"><h1>Żiogeser<span class="dot">.</span></h1>
         <div class="buttons">
         <?php
         if(isset($_SESSION['zalogowany'])&& isset($_SESSION['login'])){
-            echo '<a href="profil.php?login='.$_SESSION['login'].'"><img src="images/user.png" class="prof_pic"><span class="span_login">'.$_SESSION['login'].'</span></a>';
+            echo '<a draggable="false" href="profil.php?login='.$_SESSION['login'].'"><img draggable="false" src="images/user.png" class="prof_pic"><span class="span_login">'.$_SESSION['login'].'</span></a>';
         }else{
             echo '<a href="rej.php?form=log"><button class="login">Zaloguj</button></a>
             <a href="rej.php?form=rej"><button class="rejestracja">Utwórz konto</button></a>';
@@ -63,10 +63,10 @@ if(isset($_SESSION['zalogowany'])){
     
   </div>
   <div class="card__img"></div>
-  <a href="gra.php?map=Świat" class="card_link">
+  <a href="gra.php?map=Świat" class="card_link" draggable="false">
      <div class="card__img--hover"></div>
    </a>
-   <a href="gra.php?map=Świat">
+   <a href="gra.php?map=Świat" draggable="false">
   <div class="card__info">
     <span class="card__category">Świat</span>
     <h3 class="card__title">Lorem Ipsum dolor sit amet</h3>
@@ -84,10 +84,10 @@ if(isset($_SESSION['zalogowany'])){
     
   </div>
   <div class="card__img"></div>
-  <a href="gra.php ?map=Polska" class="card_link">
+  <a href="gra.php ?map=Polska" class="card_link" draggable="false">
      <div class="card__img--hover"></div>
    </a>
-   <a href="gra.php?map=Polska">
+   <a href="gra.php?map=Polska" draggable="false">
   <div class="card__info">
     <span class="card__category">Polska</span>
     <h3 class="card__title">Lorem Ipsum dolor sit amet</h3>
@@ -105,10 +105,10 @@ if(isset($_SESSION['zalogowany'])){
     
   </div>
   <div class="card__img"></div>
-  <a href="gra.php?map=UE" class="card_link">
+  <a href="gra.php?map=UE" class="card_link" draggable="false">
      <div class="card__img--hover"></div>
    </a>
-   <a href="gra.php?map=UE">
+   <a href="gra.php?map=UE" draggable="false">
   <div class="card__info">
     <span class="card__category">UE</span>
     <h3 class="card__title">Lorem Ipsum dolor sit amet</h3>
@@ -126,10 +126,10 @@ if(isset($_SESSION['zalogowany'])){
     
   </div>
   <div class="card__img"></div>
-  <a href="gra.php?map=USA" class="card_link">
+  <a href="gra.php?map=USA" class="card_link" draggable="false">
      <div class="card__img--hover"></div>
    </a>
-   <a href="gra.php?map=USA">
+   <a href="gra.php?map=USA" draggable="false">
   <div class="card__info">
     <span class="card__category">USA</span>
     <h3 class="card__title">Lorem Ipsum dolor sit amet</h3>
@@ -141,10 +141,10 @@ if(isset($_SESSION['zalogowany'])){
   <section class="cards">
   <article class="card card--5">
   <div class="card__img"></div>
-  <a href="country_streak.php" class="card_link">
+  <a href="country_streak.php" class="card_link" draggable="false">
      <div class="card__img--hover"></div>
    </a>
-   <a href="country_streak.php">
+   <a href="country_streak.php" draggable="false">
   <div class="card__info">
     <span class="card__category">Country Streak</span>
     <h3 class="card__title">Lorem Ipsum dolor sit amet</h3>

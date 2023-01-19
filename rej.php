@@ -21,7 +21,7 @@ if($form == "log"){
       <link rel="stylesheet" href="css/rej.css">
 </head>
 <body>
-<a href="index.php"><img src="images/arrows.png" width="50px" height="50px"></a>
+<a href="index.php" draggable="false"><img draggable="false" src="images/arrows.png" width="50px" height="50px"></a>
 <!-- Rejestracja -->
 <form action="rej.php?form=rej" method="post" id="rej_form">
     <div class="login-box">
@@ -136,7 +136,7 @@ if($log_login && $log_haslo){
       <input type="password" name="log_haslo" required="true" value="" autocomplete="off">
       <label>Hasło</label>
     </div>
-    <a href="rej.php?form=rej">Nie masz konta?</a>
+    <a href="rej.php?form=rej" draggable="false">Nie masz konta?</a>
     <label class="label_submit" for="log_submit">
       <span></span>
       <span></span>

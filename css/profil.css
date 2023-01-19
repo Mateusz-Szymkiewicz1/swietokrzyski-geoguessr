@@ -70,6 +70,9 @@ button{
     color: #fff;
     background:  #03e9f4;
 }
+#delete_bg{
+    right: 60px;
+}
 label{
     cursor: pointer;
 }
