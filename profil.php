@@ -99,8 +99,22 @@ if(isset($_SESSION['zalogowany'])){
         <button class="bg_button" id="delete_bg"><label for="bg_submit"><i class="material-icons">close</i></label></button>
    </div>
    <div class="prof_wrapper">
-       <img src="images/user.png" class="img_prof">
-       <button class="prof_button"><i class="material-icons">create</i></button>
+       <?php
+            if(is_dir("user_uploads/".$login)){
+                if(file_exists("user_uploads/".$login."/prof.jpg")){
+                    echo '<img src="'."user_uploads/".$login."/prof.jpg".'" class="img_prof">';
+                }
+                else if(file_exists("user_uploads/".$login."/prof.png")){
+                    echo '<img src="'."user_uploads/".$login."/prof.png".'" class="img_prof">';
+                }else{
+                    echo '<img src="images/user.png" class="img_prof">';
+                }
+            }else{
+               echo '<img src="images/user.png" class="img_prof">';  
+            }
+        ?> 
+       <button class="prof_button"><label for="prof_file"><i class="material-icons">create</i></label></button>
+       <button class="prof_button" id="delete_prof"><label for="prof_submit"><i class="material-icons">close</i></label></button>
    </div>
    <span class="span_login"><?=$login?></span>
    <?php
@@ -114,7 +128,13 @@ if(isset($_SESSION['zalogowany'])){
        <input type="text" value="1" name="bg_submit">
        <input type="submit" value="Przeslij" id="bg_submit">
 </form>
+<form action="profil.php?login=<?=$login?>" method="post" enctype="multipart/form-data" id="prof_form" hidden>
+       <input type="file" name="prof_file" id="prof_file">
+       <input type="text" value="1" name="prof_submit">
+       <input type="submit" value="Przeslij" id="prof_submit">
+</form>
 <?php
+// Zmiana tła
 $bg_submit = $_POST['bg_submit'] ?? null;
 if($bg_submit){
     if($_FILES['bg_file']["name"] == ""){
@@ -139,17 +159,70 @@ if($bg_submit){
             ),
             true
         )) {
-            echo "Złe rozszerzenie pliku!";
+             echo '<div class="error" id="img_error">Złe rozszerzenie pliku!</div>';
         }else{
             if ($_FILES['bg_file']['size'] > 2000000) {
-                echo "Plik za duży!";
+                 echo '<div class="error" id="img_error">Plik jest za duży!</div>';
             }else{
                 if($_FILES['bg_file']["type"] == "image/jpeg"){
                     $type = ".jpg";
                 }else{
                     $type = ".png";
                 }
+                if(file_exists("user_uploads/".$login."/bg.png")){
+                    unlink("user_uploads/".$login."/bg.png");
+                }
+                if(file_exists("user_uploads/".$login."/bg.jpg")){
+                    unlink("user_uploads/".$login."/bg.jpg");
+                }
                 move_uploaded_file($_FILES["bg_file"]["tmp_name"], "user_uploads/".$login."/bg".$type);
+                echo "<script>window.location.href='profil.php?login=".$login."';</script>";
+            }
+        }
+    }
+}
+// Zmiana prof
+$prof_submit = $_POST['prof_submit'] ?? null;
+if($prof_submit){
+    if($_FILES['prof_file']["name"] == ""){
+        if(file_exists("user_uploads/".$login."/prof.jpg")){
+            unlink("user_uploads/".$login."/prof.jpg");
+            echo "<script>window.location.href='profil.php?login=".$login."';</script>";
+        }
+        if(file_exists("user_uploads/".$login."/prof.png")){
+            unlink("user_uploads/".$login."/prof.png");
+            echo "<script>window.location.href='profil.php?login=".$login."';</script>";
+        }
+    }else{
+        if(!is_dir("user_uploads/".$login)){
+            mkdir("user_uploads/".$login, 0700);
+        }
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        if(false === $ext = array_search(
+            $finfo->file($_FILES['prof_file']['tmp_name']),
+            array(
+                'jpg' => 'image/jpeg',
+                'png' => 'image/png',
+            ),
+            true
+        )) {
+            echo '<div class="error" id="img_error">Złe rozszerzenie pliku!</div>';
+        }else{
+            if ($_FILES['prof_file']['size'] > 2000000) {
+                 echo '<div class="error" id="img_error">Plik jest za duży!</div>';
+            }else{
+                if($_FILES['prof_file']["type"] == "image/jpeg"){
+                    $type = ".jpg";
+                }else{
+                    $type = ".png";
+                }
+                if(file_exists("user_uploads/".$login."/prof.png")){
+                    unlink("user_uploads/".$login."/prof.png");
+                }
+                if(file_exists("user_uploads/".$login."/prof.jpg")){
+                    unlink("user_uploads/".$login."/prof.jpg");
+                }
+                move_uploaded_file($_FILES["prof_file"]["tmp_name"], "user_uploads/".$login."/prof".$type);
                 echo "<script>window.location.href='profil.php?login=".$login."';</script>";
             }
         }
@@ -274,6 +347,11 @@ if($bg_submit){
                 xmlHttp.send(null);
     }
 })
+if(document.querySelector("#img_error")){
+    document.querySelector("#img_error").addEventListener("click", function(){
+        document.querySelector("#img_error").remove();
+    })
+}
 </script>
 </body>
 </html>

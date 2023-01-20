@@ -140,12 +140,9 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
     });
     
 }
-
-
 function start() {
     window.getPano();
 }
-
 async function processSVData({
     data
 }) {
@@ -168,7 +165,6 @@ async function processSVData({
     })
 }
 window.initMap = initMap;
-
 function kordy() { // losuje nowe kordy, czyści wszystkie divy
     document.getElementById("pano").innerHTML = "";
     document.getElementById("mapa").innerHTML = "";

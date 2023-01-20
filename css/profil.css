@@ -117,7 +117,7 @@ label{
     position: relative;
     display: block;
     margin: auto;
-    margin-top: -100px;
+    margin-top: -120px;
     z-index: 100;
     background: transparent;
     border: 0;
@@ -125,9 +125,15 @@ label{
     opacity: 0;
     pointer-events: none;
 }
-.prof_button > i {
+.prof_button i {
     font-size: 45px;
     color: #fff;
+}
+#delete_prof{
+    margin-top: 35px;
+}
+#delete_prof i {
+    font-size: 32px;
 }
 table{
     margin: auto;
@@ -174,6 +180,10 @@ td:hover{
   transform: translate(-50%, -50%);
     text-decoration: underline;
     text-decoration-color: #d63031;
+    z-index: 100;
+}
+#img_error{
+    cursor: pointer;
 }
 .error > a {
     display: block;
