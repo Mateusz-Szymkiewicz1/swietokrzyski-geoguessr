@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <?php
 require "connect.php";
@@ -164,5 +165,16 @@ if(isset($_SESSION['zalogowany'])){
   </a>
 </article>
 </section>
+<div class="footer">
+   <div class="info">
+        <i class="fa fa-user"></i><span class="author">Mateusz Szymkiewicz 2023 ©</span>
+    </div>
+    <div class="info">
+       <i class="fa fa-code"></i><span class="author"><a href="https://github.com/Mateusz-Szymkiewicz1/swietokrzyski-geoguessr" target="_blank">Github</a></span>
+    </div>
+    <div class="info">
+        <i class="fa fa-envelope"></i><span class="author">lorem_ipsum@onet.pl</span>
+    </div>
+</div>
 </body>
 </html>
