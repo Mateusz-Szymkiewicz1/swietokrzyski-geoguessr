@@ -1,6 +1,8 @@
 function randomFloat(min, max) {
     return (Math.random() * (max - min)) + min; // funkcja tworząca losowe floaty
 }
+const urlParams = new URLSearchParams(window.location.search);
+window.current_map = urlParams.get("map");
 let panorama;
 let map;
 let kordynaty;
@@ -12,8 +14,8 @@ window.locations = [];
 window.guesses = [];
 window.current_country = "";
 function initMap() { // funkcja odbywająca się wraz z startem strony
-    let x = randomFloat(-125, 177); // losowane kordynaty
-    let y = randomFloat(-66, 69); //
+    x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx);
+    y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);                             
     if(x <= -24 && x >= -34 ){
         initMap();
     }
@@ -40,21 +42,40 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
                     let response = JSON.parse(xmlHttp.response);
                     if(!response.address.CountryCode){
-                        let x = randomFloat(-125, 177); // losowane nowe kordynaty
-                        let y = randomFloat(-66, 69);
-                        kordynaty = {
-                            lat: y,
-                            lng: x
-                        };
+                        x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
+                                y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
+                                kordynaty = {
+                                    lat: y,
+                                    lng: x
+                                };
                         getPano();
                     }else{
-                    window.current_country = response.address.CountryCode;
+                        window.current_country = response.address.CountryCode;
+                        if(window.current_map != "Świat"){
+                            if(window.maps[window.current_map].countries.indexOf(window.current_country) >= 0){
+                            processSVData(res).then(function(response){
+                                document.getElementById("start").style.display = "block";
+                                document.getElementById("mapa").style.display = "block";
+                                }, function(error){
+                                    console.log(error)
+                                });
+                            }else{
+                                x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
+                                y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
+                                kordynaty = {
+                                    lat: y,
+                                    lng: x
+                                };
+                                getPano();
+                            }
+                        }else{
                         processSVData(res).then(function(response){
                             document.getElementById("start").style.display = "block";
                             document.getElementById("mapa").style.display = "block";
                             }, function(error){
                                 console.log(error)
                             });
+                        }
                     }
                 }
             }
@@ -68,8 +89,8 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
     },
     function(err){
         console.log("Nie znaleziono żadnego StreetView, losuje nowe kordynaty....")
-             let x = randomFloat(-125, 177); // losowane nowe kordynaty
-            let y = randomFloat(-66, 69);
+             x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx);
+            y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
             kordynaty = {
                 lat: y,
                 lng: x
@@ -125,7 +146,7 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                         document.getElementById("start").style.display = "none";
                         document.querySelector("#runda").classList.add("runda");
                         document.querySelector("#runda").removeAttribute("id");
-                        document.querySelector(".runda").innerHTML = document.querySelector(".runda").innerHTML+`<br /><a href="country_streak.php"><button>Nowa gra</button></a>`;
+                        document.querySelector(".runda").innerHTML = document.querySelector(".runda").innerHTML+`<br /><a href="country_streak.php?map=${window.current_map}"><button>Nowa gra</button></a>`;
                     }
                 }
             }

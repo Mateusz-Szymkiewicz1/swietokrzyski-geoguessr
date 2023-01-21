@@ -141,12 +141,24 @@ if(isset($_SESSION['zalogowany'])){
   <section class="cards">
   <article class="card card--5">
   <div class="card__img"></div>
-  <a href="country_streak.php" class="card_link" draggable="false">
+  <a href="country_streak.php?map=Świat" class="card_link" draggable="false">
      <div class="card__img--hover"></div>
    </a>
-   <a href="country_streak.php" draggable="false">
+   <a href="country_streak.php?map=Świat" draggable="false">
   <div class="card__info">
-    <span class="card__category">Country Streak</span>
+    <span class="card__category">World Streak</span>
+    <h3 class="card__title">Lorem Ipsum dolor sit amet</h3>
+  </div>
+  </a>
+</article>
+<article class="card card--6">
+  <div class="card__img"></div>
+  <a href="country_streak.php?map=Europa" class="card_link" draggable="false">
+     <div class="card__img--hover"></div>
+   </a>
+   <a href="country_streak.php?map=Europa" draggable="false">
+  <div class="card__info">
+    <span class="card__category">Europe Streak</span>
     <h3 class="card__title">Lorem Ipsum dolor sit amet</h3>
   </div>
   </a>

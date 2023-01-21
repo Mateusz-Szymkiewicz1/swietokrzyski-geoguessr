@@ -49,5 +49,18 @@ window.maps = {
             lng: 18,
         },
         size: 250,
+    },
+    Europa:{
+        minx: -9.5,
+        maxx: 34.4,
+        miny: 34.9,
+        maxy: 70,
+        countries: ["POL", "DEU", "FRA", "BGR", "ESP", "ITA","SWE", "LVA","HRV", "EST","FIN","CZE","GRC","BEL","ROU","LTU","HUN","NLD","SVN", "AUT","SVK","PRT","IRL","CYP","DNK","AND","LUX","MLT","SMR","GBR","UKR","NOR","RUS","ISL","BLR","CHE","MDA","SRB","BIH","MNE","MKD","ALB"],
+        zoom: 3,
+        center: {
+            lat: 56,
+            lng: 18,
+        },
+        size: 250,
     }
 }
