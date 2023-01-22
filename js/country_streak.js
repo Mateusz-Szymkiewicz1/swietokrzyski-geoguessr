@@ -3,30 +3,20 @@ function randomFloat(min, max) {
 }
 const urlParams = new URLSearchParams(window.location.search);
 window.current_map = urlParams.get("map");
-let panorama;
-let map;
-let kordynaty;
+let panorama, map, kordynaty, marker, sv;
 let licznik = 0;
-let marker;
-let sv;
 let runda = 0;
 window.locations = [];
 window.guesses = [];
 window.current_country = "";
 function initMap() { // funkcja odbywająca się wraz z startem strony
     x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx);
-    y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);                             
-    if(x <= -24 && x >= -34 ){
-        initMap();
-    }
-    kordynaty = {
-        lat: y,
-        lng: x
-    };
+    y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);          
+    kordynaty = {lat: y,lng: x};
     sv = new google.maps.StreetViewService();
     map = new google.maps.Map(document.getElementById("mapa"), { // stworzenie obiektu mapa, przypisanie do diva
-        zoom: 2,
-        center: {lat: 20,lng: 0}  // kordynaty środka mapy
+        zoom: window.maps[window.current_map].zoom,
+        center: window.maps[window.current_map].center
     });
     panorama = new google.maps.StreetViewPanorama( // stworzenie obiektu streetview (panorama), przypisanie do diva
         document.getElementById("pano")
@@ -44,10 +34,7 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                     if(!response.address.CountryCode){
                         x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
                                 y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
-                                kordynaty = {
-                                    lat: y,
-                                    lng: x
-                                };
+                                kordynaty = {lat: y,lng: x};
                         getPano();
                     }else{
                         window.current_country = response.address.CountryCode;
@@ -62,10 +49,7 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                             }else{
                                 x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
                                 y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
-                                kordynaty = {
-                                    lat: y,
-                                    lng: x
-                                };
+                                kordynaty = {lat: y,lng: x};
                                 getPano();
                             }
                         }else{
@@ -88,13 +72,9 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
             xmlHttp.send(null);
     },
     function(err){
-        console.log("Nie znaleziono żadnego StreetView, losuje nowe kordynaty....")
              x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx);
             y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
-            kordynaty = {
-                lat: y,
-                lng: x
-            };
+            kordynaty = {lat: y,lng: x};
         getPano();
     }
     );
@@ -125,11 +105,6 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                         let login = document.querySelector("#login").innerText;
                         if(runda > cs_max){
                             var xmlHttp2 = new XMLHttpRequest();
-                            xmlHttp2.onreadystatechange = function() { 
-                                if (xmlHttp2.readyState == 4 && xmlHttp2.status == 200){
-                                    
-                                }
-                            }
                             xmlHttp2.open("GET", `set_cs_max.php?login=${login}&cs_max=${runda}&type=max`, true);
                             xmlHttp2.send(null);
                         }
@@ -141,7 +116,16 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                             xmlHttp3.send(null);
                         }
                     }else{
-                        document.querySelector("#runda").innerHTML = "Streak : "+runda+" - Koniec";
+                        if(document.querySelector("#login")){
+                            let cs_max = parseInt(document.querySelector("#cs_max").innerText);
+                            if(runda > cs_max){
+                                document.querySelector("#runda").innerHTML = `Streak: ${runda} - Koniec<br/><span class="nowy_rekord">Nowy Rekord!</span>`;
+                            }else{
+                                document.querySelector("#runda").innerHTML = `Streak: ${runda} - Koniec<br/>Rekord: ${cs_max}`;
+                            }     
+                        }else{
+                            document.querySelector("#runda").innerHTML = `Streak: ${runda} - Koniec`;
+                        }
                         document.getElementById("pano").innerHTML = "";
                         document.getElementById("start").style.display = "none";
                         document.querySelector("#runda").classList.add("runda");
@@ -169,7 +153,7 @@ async function processSVData({
 }) {
     let location = data.location;
     panorama.setOptions({
-        showRoadLabels: false // usuwa nazwy dróg, bo z nimi gra by była za łatwa ;)
+        showRoadLabels: false
     });
     marker = new google.maps.Marker({ // tworzy znacznik wylosowanego miejsca, domyślnie niewidoczny
         position: location.latLng,

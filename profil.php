@@ -246,9 +246,9 @@ if($prof_submit){
 <h2>Country Streak</h2>
 <table>
     <tr>
-        <th>CS Rozegrane</th>
-        <th>CS Rekord</th>
-        <th>CS Średnia</th>
+        <th>Rozegrane</th>
+        <th>Rekord</th>
+        <th>Średnia</th>
     </tr>
     <tr>
         <td><?=$cs_games?></td>

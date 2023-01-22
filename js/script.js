@@ -32,14 +32,8 @@ function haversine_distance(mk1, mk2) {
     var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2)));
     return d;
 }
-let panorama;
-let map;
-let kordynaty;
+let panorama, map, kordynaty, marker,odleglosc,distance,sv;
 let licznik = 0;
-let marker;
-let odleglosc;
-let distance;
-let sv;
 let runda = 1;
 let punkty = 0;
 window.locations = [];
@@ -49,13 +43,7 @@ window.points = [];
 function initMap() { // funkcja odbywająca się wraz z startem strony
     let x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
     let y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy); //
-    if(x <= -24 && x >= -34 ){
-        initMap();
-    }
-    kordynaty = {
-        lat: y,
-        lng: x
-    };
+    kordynaty = {lat: y,lng: x};
     sv = new google.maps.StreetViewService();
     map = new google.maps.Map(document.getElementById("mapa"), { // stworzenie obiektu mapa, przypisanie do diva
         zoom: window.maps[window.current_map].zoom,
@@ -86,10 +74,7 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                         }else{
                             x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
                             y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
-                            kordynaty = {
-                                lat: y,
-                                lng: x
-                            };
+                            kordynaty = {lat: y,lng: x};
                             getPano();
                         }
                     }else{
@@ -107,13 +92,9 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
             xmlHttp.send(null);
     },
     function(err){
-        console.log("Nie znaleziono żadnego StreetView, losuje nowe kordynaty....")
             x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
             y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
-            kordynaty = {
-                lat: y,
-                lng: x
-            };
+            kordynaty = {lat: y,lng: x};
         getPano();
     }
     );
@@ -158,7 +139,7 @@ async function processSVData({
 }) {
     let location = data.location;
     panorama.setOptions({
-        showRoadLabels: false // usuwa nazwy dróg, bo z nimi gra by była za łatwa ;)
+        showRoadLabels: false
     });
     marker = new google.maps.Marker({ // tworzy znacznik wylosowanego miejsca, domyślnie niewidoczny
         position: location.latLng,
@@ -246,11 +227,6 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         }
         if(document.querySelector("#login")){
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log(this.responseText)
-                }
-            };
             let login = document.querySelector("#login").innerText;
             let ukonczone = document.querySelector("#ukonczone").innerText;
             var url = "?login=" + login + "&ukonczone=" + ukonczone + "&wynik=" + punkty;
