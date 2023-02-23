@@ -3,6 +3,9 @@ function randomFloat(min, max) {
 }
 const urlParams = new URLSearchParams(window.location.search);
 window.current_map = urlParams.get("map");
+if(!(window.current_map in window.maps)){
+    window.location.href='index.php';
+}
 let panorama, map, kordynaty, marker, sv;
 let licznik = 0;
 let runda = 0;
@@ -32,33 +35,29 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
                     let response = JSON.parse(xmlHttp.response);
                     if(!response.address.CountryCode){
-                        x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
-                                y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
-                                kordynaty = {lat: y,lng: x};
+                        x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx);
+                        y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
+                        kordynaty = {lat: y,lng: x};
                         getPano();
                     }else{
                         window.current_country = response.address.CountryCode;
                         if(window.current_map != "Świat"){
                             if(window.maps[window.current_map].countries.indexOf(window.current_country) >= 0){
-                            processSVData(res).then(function(response){
-                                document.getElementById("start").style.display = "block";
-                                document.getElementById("mapa").style.display = "block";
-                                }, function(error){
-                                    console.log(error)
-                                });
+                                processSVData(res).then(function(response){
+                                    document.getElementById("start").style.display = "block";
+                                    document.getElementById("mapa").style.display = "block";
+                                }, function(error){console.log(error)});
                             }else{
-                                x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
+                                x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx);
                                 y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
                                 kordynaty = {lat: y,lng: x};
                                 getPano();
                             }
                         }else{
-                        processSVData(res).then(function(response){
-                            document.getElementById("start").style.display = "block";
-                            document.getElementById("mapa").style.display = "block";
-                            }, function(error){
-                                console.log(error)
-                            });
+                            processSVData(res).then(function(response){
+                                document.getElementById("start").style.display = "block";
+                                document.getElementById("mapa").style.display = "block";
+                            }, function(error){console.log(error)});
                         }
                     }
                 }
@@ -72,9 +71,9 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
             xmlHttp.send(null);
     },
     function(err){
-             x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx);
-            y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
-            kordynaty = {lat: y,lng: x};
+        x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx);
+        y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy);
+        kordynaty = {lat: y,lng: x};
         getPano();
     }
     );

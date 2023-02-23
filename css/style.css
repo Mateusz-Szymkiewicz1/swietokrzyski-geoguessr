@@ -6,7 +6,6 @@ body {
     overflow: hidden;
  }
  #pano {
-     filter: invert();
      height: 100%;
      width: 100%;
      position: absolute;
@@ -14,15 +13,12 @@ body {
      left: 0;
      z-index: 0;
  }
-#pano div{
+#pano > div:first-child{
     filter: invert(1);
 }
  .gm-iv-address {
      display: none;
  }
-#pano > img{
-    filter: invert();
-}
  #pano > div:nth-child(2) {
      opacity: 0;
      pointer-events: none;
@@ -78,7 +74,7 @@ body {
      z-index: 2001;
  }
  #start {
-     margin-left: 7.5vw;
+     margin-left: 100px;
  }
 #runda{
     margin-bottom: 20px;

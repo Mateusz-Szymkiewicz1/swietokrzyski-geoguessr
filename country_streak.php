@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-2VsB6HLBe9m2ZSXmQbGR1b2gzFNijLQ&callback=initMap&v=weekly" defer></script>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/country_streak.js"></script>
     <script src="js/maps.js"></script>
+    <script src="js/country_streak.js"></script>
 </head>
 <?php
 require "connect.php";
@@ -44,7 +44,7 @@ if(isset($_SESSION['zalogowany'])){
 <body id="body">
    <a href="index.php"><img src="images/back.png" height="49px" width="50px" id="back"></a>
     <span id="runda">Streak: 0</span>
-    <div id="pano"></div>
+    <div id="pano" style="background: #171717;"></div>
     <div class="kordy" onclick="kordy()" id="kordy"><img src="images/next.png" height="50px" width="50px" class="next" style="margin-left: 5vw;"></div>
     <div class="kordy" id="start" onclick="start()" style="margin-left: 1vw;"><img src="images/start.png" height="50px" width="30px"></div>
     <div id="mapa" class="mapa"></div>

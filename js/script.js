@@ -1,14 +1,8 @@
-//var xmlHttp = new XMLHttpRequest();
-//            xmlHttp.onreadystatechange = function() { 
-//                if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-//                    let response = JSON.parse(xmlHttp.response);
-//                     console.log(response);
-//                }
-//            }
-//            xmlHttp.open("GET", `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=12.466%2C43.9`, true);
-//            xmlHttp.send(null);
 const urlParams = new URLSearchParams(window.location.search);
 window.current_map = urlParams.get("map");
+if(!(window.current_map in window.maps)){
+    window.location.href='index.php';
+}
 let map_size = window.maps[window.current_map].size;
 function randomFloat(min, max) {
     return (Math.random() * (max - min)) + min; // funkcja tworząca losowe floaty
@@ -79,9 +73,11 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                         }
                     }else{
                         processSVData(res).then(function(response){
-                            document.getElementById("kordy").style.display = "block";
-                            document.getElementById("start").style.display = "block";
-                            document.getElementById("mapa").style.display = "block";
+                            setTimeout(function(){
+                              document.getElementById("kordy").style.display = "block";
+                                document.getElementById("start").style.display = "block";
+                                document.getElementById("mapa").style.display = "block";
+                            }, 1000)
                             }, function(error){
                                 console.log(error)
                             });
@@ -164,7 +160,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         document.getElementById("runda").innerHTML = "";
         document.getElementById("mapa").innerHTML = "";
         document.getElementById("mapa").style.border = "0";
-        document.getElementById("pano").style.cssText = `background: transparent;padding-top:100px;border:2px solid #fff;height: 45vh;width: 100%;text-align:center;`;
+        document.getElementById("pano").style.cssText = `background: transparent;padding-top:100px;border:2px solid #fff;height: 45vh;width: 100%;text-align:center;filter: invert(1);`;
         document.getElementById("pano").innerHTML = '';
         document.getElementById("body").style.overflowY = "auto";
         let map_end = new google.maps.Map(document.getElementById("pano"), {
@@ -187,7 +183,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
             }
             randomColor2 = randomColor;
             randomColor = "#"+randomColor;
-            if(window.guesses[i]){
+            if(window.guesses[i] && window.guesses[i] != "brak"){
                 guess_end = new google.maps.Marker({
                 position: window.guesses[i].latLng,
                 map: map_end,
@@ -208,13 +204,13 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         document.body.appendChild(endbox);
         for(let j = 1; j<=runda;j++){
             let odleglosc_end;
-            if(window.distances[j-1]){
+            if(window.distances[j-1] && window.distances[j-1] != "brak"){
                 odleglosc_end = Math.ceil(window.distances[j-1])+"km";
             }else{
                 odleglosc_end = "Brak";
             }
             let points_end;
-            if(window.points[j-1]){
+            if(window.points[j-1] && window.points[j-1] != "brak"){
                 points_end = Math.ceil(window.points[j-1]);
             }else{
                 points_end = "Brak";
@@ -237,11 +233,18 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
     else{
     document.getElementById("pano").innerHTML = "";
     document.getElementById("mapa").innerHTML = "";
+    document.getElementById("start").style.display = "none";
+    document.getElementById("kordy").style.display = "none";
     licznik = 0;
     panorama = null;
     map = null;
     runda = runda+1;
     document.getElementById("runda").innerHTML = "Runda "+runda+"/5";
+    if(window.locations.length > window.guesses.length){
+        window.guesses.push("brak");
+        window.distances.push("brak");
+        window.points.push("brak");
+    }
     initMap(); 
     }
 }
