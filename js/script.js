@@ -278,6 +278,34 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
                 <td>${time_end}</td>
             </tr>`;
         }
+        let time_total = null;
+        window.times.forEach(el => {
+            if(el != "brak"){
+                time_total += el;
+            }
+        })
+        if(!time_total){
+            time_total = "Brak";
+        }else{
+            let czas_format = time_total;
+            if(time_total < 10){
+                czas_format = `00:0${time_total}`;
+            }else if(time_total < 60){
+                czas_format = `00:${time_total}`;
+            }else if(time_total >= 60){
+                let minuty = Math.floor(time_total/60)
+                let sekundy = time_total-(minuty*60)
+                if(minuty < 10){
+                    minuty = '0'+minuty;
+                }
+                if(sekundy < 10){
+                    sekundy = '0'+sekundy;
+                }
+                czas_format = `${minuty}:${sekundy}`;
+            }
+           time_total = czas_format
+        }
+        document.querySelector("h3").innerHTML += `<br/>Czas: ${time_total}`;
         if(document.querySelector("#login")){
             var xmlhttp = new XMLHttpRequest();
             let login = document.querySelector("#login").innerText;
