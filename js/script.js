@@ -7,14 +7,6 @@ let map_size = window.maps[window.current_map].size;
 function randomFloat(min, max) {
     return (Math.random() * (max - min)) + min; // funkcja tworząca losowe floaty
 }
-function LightenDarkenColor(col, amt) {
-  var num = parseInt(col, 16);
-  var r = (num >> 16) + amt;
-  var b = ((num >> 8) & 0x00FF) + amt;
-  var g = (num & 0x0000FF) + amt;
-  var newColor = g | (b << 8) | (r << 16);
-  return newColor.toString(16);
-} 
 function haversine_distance(mk1, mk2) {
     // funkcja obliczająca odległość między punktami na mapie przy użyciu obwodu ziemi
     // wzięta z dokumentacji google
@@ -35,6 +27,7 @@ window.guesses = [];
 window.distances = [];
 window.points = [];
 window.times = [];
+window.random_colors = ["#03e9f4","#03e9f4","#03e9f4","#03e9f4","#03e9f4"];
 function initMap() { // funkcja odbywająca się wraz z startem strony
     let x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
     let y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy); //
@@ -217,18 +210,19 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
             randomColor2 = randomColor;
             randomColor = "#"+randomColor;
             if(window.guesses[i] && window.guesses[i] != "brak"){
+                window.random_colors[i] = randomColor;
                 guess_end = new google.maps.Marker({
-                position: window.guesses[i].latLng,
-                map: map_end,
-                icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|'+randomColor2
-            });
-           let odl_end = new google.maps.Polyline({
-                path: [location_end.getPosition(), guess_end.getPosition()],
-                map: map_end,
-               strokeColor: randomColor,
-    strokeOpacity: 1.0,
-    strokeWeight: 4,
-            });
+                    position: window.guesses[i].latLng,
+                    map: map_end,
+                    icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|'+randomColor2
+                });
+               let odl_end = new google.maps.Polyline({
+                    path: [location_end.getPosition(), guess_end.getPosition()],
+                    map: map_end,
+                    strokeColor: randomColor,
+                    strokeOpacity: 1.0,
+                    strokeWeight: 4,
+                });
             }
         }
         let endbox = document.createElement("div");
@@ -306,6 +300,13 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
            time_total = czas_format
         }
         document.querySelector("h3").innerHTML += `<br/>Czas: ${time_total}`;
+        let color_count = 0;
+        window.random_colors.forEach(color => {
+            let style = document.createElement("style");
+            style.innerHTML = `tbody:nth-of-type(${color_count+2}) tr:hover td{background: ${color};}`;
+            document.body.appendChild(style);
+            color_count++;
+        })
         if(document.querySelector("#login")){
             var xmlhttp = new XMLHttpRequest();
             let login = document.querySelector("#login").innerText;

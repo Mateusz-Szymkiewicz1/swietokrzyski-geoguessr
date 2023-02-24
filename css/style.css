@@ -143,6 +143,7 @@ td{
     text-align: center;
     cursor: pointer;
     transition: 0.1s;
+    text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
 }
 h3{
     margin-top: -20px;
@@ -161,10 +162,6 @@ h3{
     margin: auto;
     margin-top: 30px;
     margin-bottom: 80px;
-}
-tr:hover td{
-    background: #03e9f4;;
-    color: #fff;
 }
 .runda{
      color: #fff;
