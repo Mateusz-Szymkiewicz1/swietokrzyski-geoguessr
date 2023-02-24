@@ -1,5 +1,17 @@
 const urlParams = new URLSearchParams(window.location.search);
 window.current_map = urlParams.get("map");
+window.move = true;
+window.pan = true;
+window.zoom = true;
+if(urlParams.get("move") && urlParams.get("move") == "false"){
+    window.move = false;
+}
+if(urlParams.get("pan") && urlParams.get("pan") == "false"){
+    window.pan = false;
+}
+if(urlParams.get("zoom") && urlParams.get("zoom") == "false"){
+    window.zoom = false;
+}
 if(!(window.current_map in window.maps)){
     window.location.href='index.php';
 }
@@ -153,7 +165,12 @@ async function processSVData({
 }) {
     let location = data.location;
     panorama.setOptions({
-        showRoadLabels: false
+        showRoadLabels: false,
+        clickToGo: window.move,
+        disableDefaultUI: !window.move,
+        zoomControl: window.zoom,
+        scrollwheel: window.zoom,
+        panControl: window.pan,
     });
     marker = new google.maps.Marker({ // tworzy znacznik wylosowanego miejsca, domyślnie niewidoczny
         position: location.latLng,

@@ -176,5 +176,56 @@ if(isset($_SESSION['zalogowany'])){
         <i class="fa fa-envelope"></i><span class="author">lorem_ipsum@onet.pl</span>
     </div>
 </div>
+<div class="game_setup" style="display: none;">
+    <div class="close">x</div>
+    <div class="image">
+        <h2></h2>
+        <label>Poruszanie się <input type="checkbox" checked class="check_move"></label>
+        <label>Kompas <input type="checkbox" checked class="check_pan"></label>
+        <label>Zoom <input type="checkbox" checked class="check_zoom"></label>
+        <label>Limit czasu na 1 rundę (s) <input type="number" value="0" min="0" max="3600" class="time_limit"></label>
+        <button>Rozpocznij</button>
+    </div>
+</div>
+<script>
+    document.querySelectorAll("article a").forEach(el => {
+        el.addEventListener("click", function(e){
+            e.preventDefault();
+            document.querySelector(".game_setup").style.display = "block";  
+            let link = el.href;
+            document.body.scrollIntoView();
+            document.body.querySelectorAll("*").forEach(el => {
+                if(el.className != "game_setup" && !document.querySelector(".game_setup").contains(el)){
+                    el.style = el.style.cssText+"filter: blur(4px);pointer-events:none;cursor:auto;user-select:none;";
+                }
+            })
+            document.querySelector(".image").className = "image "+el.parentElement.classList[1];
+            document.querySelector(".image h2").innerText = el.parentElement.querySelector(".card__category").innerText;
+            document.querySelector(".game_setup button").addEventListener("click", function(){
+                if(!document.querySelector(".check_move").checked){
+                    link = link+'&move=false';
+                }
+                if(!document.querySelector(".check_pan").checked){
+                    link = link+'&pan=false';
+                }
+                if(!document.querySelector(".check_zoom").checked){
+                    link = link+'&zoom=false';
+                }
+                document.location.href = link;
+            })
+        })
+    })
+    document.querySelector(".close").addEventListener("click", function(){
+        document.querySelector(".game_setup").style.display = "none";  
+        document.body.querySelectorAll("*").forEach(el => {
+            if(el.className != "game_setup" && el.parentElement.className != "game_setup"){
+                el.style.filter = "";
+                el.style.pointerEvents = "";
+                el.style.userSelect = "";
+                el.style.cursor = "";
+            }
+        })
+    })
+</script>
 </body>
 </html>
