@@ -26,7 +26,7 @@ function haversine_distance(mk1, mk2) {
     var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2)));
     return d;
 }
-let panorama, map, kordynaty, marker,odleglosc,distance,sv;
+let panorama, map, kordynaty, marker,odleglosc,distance,sv,czas,time_interval;
 let licznik = 0;
 let runda = 1;
 let punkty = 0;
@@ -34,6 +34,7 @@ window.locations = [];
 window.guesses = [];
 window.distances = [];
 window.points = [];
+window.times = [];
 function initMap() { // funkcja odbywająca się wraz z startem strony
     let x = randomFloat(window.maps[window.current_map].minx, window.maps[window.current_map].maxx); // losowane kordynaty
     let y = randomFloat(window.maps[window.current_map].miny, window.maps[window.current_map].maxy); //
@@ -59,6 +60,28 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                     if(window.current_map != "Świat"){
                         if(window.maps[window.current_map].countries.indexOf(response.address.CountryCode) >= 0){
                             processSVData(res).then(function(response){
+                                document.getElementById("czas").innerHTML = "00:00";
+                                czas = 0;
+                                time_interval = setInterval(function(){
+                                    czas++;
+                                    let czas_format = czas;
+                                    if(czas < 10){
+                                        czas_format = `00:0${czas}`;
+                                    }else if(czas < 60){
+                                        czas_format = `00:${czas}`;
+                                    }else if(czas >= 60){
+                                        let minuty = Math.floor(czas/60)
+                                        let sekundy = czas-(minuty*60)
+                                        if(minuty < 10){
+                                            minuty = '0'+minuty;
+                                        }
+                                        if(sekundy < 10){
+                                            sekundy = '0'+sekundy;
+                                        }
+                                        czas_format = `${minuty}:${sekundy}`;
+                                    }
+                                    document.getElementById("czas").innerHTML = czas_format;
+                                },1000)
                                 document.getElementById("kordy").style.display = "block";
                                 document.getElementById("start").style.display = "block";
                                 document.getElementById("mapa").style.display = "block";
@@ -104,6 +127,8 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
                 position: e.latLng, // e.latLng to kordynaty 'e' czyli miejsca eventu - kliknięcia
                 map,
             });
+            clearInterval(time_interval);
+            window.times.push(czas);
             window.guesses.push(e);
             odleglosc = new google.maps.Polyline({ // Polyline to obiekt linia pomiędzy dwoma punktami na mapie
                 path: [marker.getPosition(), marker2.getPosition()],
@@ -155,6 +180,14 @@ window.initMap = initMap;
 
 function kordy() { // losuje nowe kordy, czyści wszystkie divy
     if(runda >= 5){
+        if(window.locations.length > window.guesses.length){
+            clearInterval(time_interval);
+            window.guesses.push("brak");
+            window.distances.push("brak");
+            window.points.push("brak");
+            window.times.push("brak");
+        }
+        document.getElementById("czas").style.display = "none";
         document.getElementById("kordy").style.display = "none";
         document.getElementById("start").style.display = "none";
         document.getElementById("runda").innerHTML = "";
@@ -200,7 +233,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         }
         let endbox = document.createElement("div");
         endbox.classList.add("endbox");
-        endbox.innerHTML = `<h2>Gra skończona!</h2><br/><h3>Punkty: ${punkty}</h3><table><tr><th>Runda</th><th>Odległość</th><th>Punkty</th></tr></table><br /><a class="nowa_gra" href="gra.php?map=${window.current_map}">Nowa gra</a>`;
+        endbox.innerHTML = `<h2>Gra skończona!</h2><br/><h3>Punkty: ${punkty}</h3><table><tr><th>Runda</th><th>Odległość</th><th>Punkty</th><th>Czas</th></tr></table><br /><a class="nowa_gra" href="gra.php?map=${window.current_map}">Nowa gra</a>`;
         document.body.appendChild(endbox);
         for(let j = 1; j<=runda;j++){
             let odleglosc_end;
@@ -215,10 +248,34 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
             }else{
                 points_end = "Brak";
             }
+            let time_end;
+            if(window.times[j-1] && window.times[j-1] != "brak"){
+                time_end = window.times[j-1];
+                let czas_format = time_end;
+                if(time_end < 10){
+                    czas_format = `00:0${time_end}`;
+                }else if(time_end < 60){
+                    czas_format = `00:${time_end}`;
+                }else if(time_end >= 60){
+                    let minuty = Math.floor(time_end/60)
+                    let sekundy = time_end-(minuty*60)
+                    if(minuty < 10){
+                        minuty = '0'+minuty;
+                    }
+                    if(sekundy < 10){
+                        sekundy = '0'+sekundy;
+                     }
+                    czas_format = `${minuty}:${sekundy}`;
+                }
+                time_end = czas_format
+            }else{
+                time_end = "Brak";
+            }
             document.querySelector("table").innerHTML = document.querySelector("table").innerHTML+`<tr>
                 <td>${j}</td>
                 <td>${odleglosc_end}</td>
                 <td>${points_end}</td>
+                <td>${time_end}</td>
             </tr>`;
         }
         if(document.querySelector("#login")){
@@ -241,9 +298,11 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
     runda = runda+1;
     document.getElementById("runda").innerHTML = "Runda "+runda+"/5";
     if(window.locations.length > window.guesses.length){
+        clearInterval(time_interval);
         window.guesses.push("brak");
         window.distances.push("brak");
         window.points.push("brak");
+        window.times.push("brak");
     }
     initMap(); 
     }

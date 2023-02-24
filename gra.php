@@ -40,7 +40,7 @@ if(isset($_SESSION['zalogowany'])){
 ?>
 <body id="body">
    <a href="index.php" draggable="false"><img draggable="false" src="images/back.png" height="49px" width="50px" id="back"></a>
-    <span id="runda">Runda 1/5</span>
+    <span id="runda">Runda 1/5</span><span id="czas"></span>
     <div id="pano"></div>
     <div class="kordy" onclick="kordy()" id="kordy"><img draggable="false" src="images/next.png" height="50px" width="50px" class="next"></div>
     <div class="kordy" id="start" onclick="start()"><img draggable="false" src="images/start.png" height="50px" width="30px"></div>
