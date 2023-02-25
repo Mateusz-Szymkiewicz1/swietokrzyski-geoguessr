@@ -183,7 +183,7 @@ if(isset($_SESSION['zalogowany'])){
         <label>Poruszanie się <input type="checkbox" checked class="check_move"></label>
         <label>Kompas <input type="checkbox" checked class="check_pan"></label>
         <label>Zoom <input type="checkbox" checked class="check_zoom"></label>
-        <label>Limit czasu na 1 rundę (s) <input type="number" value="0" min="0" max="3600" class="time_limit"></label>
+        <label>Limit czasu na 1 rundę (s) <input type="time" value="00:00" class="time_limit"></label>
         <button>Rozpocznij</button>
     </div>
 </div>
@@ -210,6 +210,13 @@ if(isset($_SESSION['zalogowany'])){
                 }
                 if(!document.querySelector(".check_zoom").checked){
                     link = link+'&zoom=false';
+                }
+                if(document.querySelector(".time_limit").value != "00:00"){
+                    let time = document.querySelector(".time_limit").value.split(":");
+                    let time2 = parseInt(time[1])+(parseInt(time[0])*60);
+                    if(Number.isInteger(time2)){
+                        link = link+`&time_limit=${time2}`;
+                    }
                 }
                 document.location.href = link;
             })
