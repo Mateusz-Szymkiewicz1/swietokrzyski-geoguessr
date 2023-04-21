@@ -173,7 +173,7 @@ if(isset($_SESSION['zalogowany'])){
        <i class="fa fa-code"></i><span class="author"><a href="https://github.com/Mateusz-Szymkiewicz1/swietokrzyski-geoguessr" target="_blank">Github</a></span>
     </div>
     <div class="info">
-        <i class="fa fa-envelope"></i><span class="author">lorem_ipsum@onet.pl</span>
+        <i class="fa fa-envelope"></i><span class="author">szymkiewiczmateusz1@gmail.com</span>
     </div>
 </div>
 <div class="game_setup" style="display: none;">

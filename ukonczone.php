@@ -20,8 +20,8 @@ $stmt = $db->prepare($sql);
 $stmt->execute();
 
 if($wynik > $max_score){
-    $sql = "UPDATE uzytkownicy SET max_score='$wynik' WHERE login='$login';";
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
+  $sql = "UPDATE uzytkownicy SET max_score='$wynik' WHERE login='$login';";
+  $stmt = $db->prepare($sql);
+  $stmt->execute();
 }
 ?>

@@ -319,8 +319,6 @@ if($prof_submit){
     if($fav_maps != ""){
         echo '</div>';
     }
-?>
-<?php
     if($wlasciciel == 1){
         echo '<form action="profil.php?login='.$login.'" method="post" hidden><input type="text" name="wyloguj" value="1">
             <input type="submit" id="wyloguj_submit">
@@ -329,29 +327,24 @@ if($prof_submit){
     }
 ?>
 <script>
-    document.addEventListener("click", function(e){
+  document.addEventListener("click", function(e){
     if(e.target.className.baseVal == ""){
         e.target.parentElement.parentElement.parentElement.remove();
         if(!document.querySelector(".cards").innerHTML){
             document.querySelector("h2").remove();
         }
         var xmlHttp = new XMLHttpRequest();
-                xmlHttp.onreadystatechange = function() { 
-                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            
-                    }
-                }
-                let login = document.querySelector("#login").innerText;
-                let map = e.target.dataset.map;
-                xmlHttp.open("GET", `add_fav_map.php?login=${login}&map=${map}&type=remove`, true);
-                xmlHttp.send(null);
+        let login = document.querySelector("#login").innerText;
+        let map = e.target.dataset.map;
+        xmlHttp.open("GET", `add_fav_map.php?login=${login}&map=${map}&type=remove`, true);
+        xmlHttp.send(null);
     }
-})
-if(document.querySelector("#img_error")){
-    document.querySelector("#img_error").addEventListener("click", function(){
-        document.querySelector("#img_error").remove();
-    })
-}
+  })
+  if(document.querySelector("#img_error")){
+      document.querySelector("#img_error").addEventListener("click", function(){
+          document.querySelector("#img_error").remove();
+      })
+  }
 </script>
 </body>
 </html>

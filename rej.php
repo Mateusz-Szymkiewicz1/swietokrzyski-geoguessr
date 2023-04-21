@@ -3,11 +3,11 @@ require_once "connect.php";
 session_start();
 $form = $_GET['form'] ?? "rej";
 if($error == 0){
-if($form == "log"){
+  if($form == "log"){
     echo '<style>#log_form{display: block !important;}</style>';
-}else{
+  }else{
     echo '<style>#rej_form{display: block !important;}</style>';
-}
+  }
 }
 ?>
 <html>
@@ -18,7 +18,7 @@ if($form == "log"){
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="css/rej.css">
+    <link rel="stylesheet" href="css/rej.css">
 </head>
 <body>
 <a href="index.php" draggable="false"><img draggable="false" src="images/arrows.png" width="50px" height="50px"></a>
@@ -155,9 +155,9 @@ if($log_login && $log_haslo){
     })
     document.querySelectorAll("input").forEach(el =>{
        el.addEventListener("focusout", function(e){
-           if(el.value == ""){
-        e.target.parentElement.querySelector("label").setAttribute("style", "")
-           }
+          if(el.value == ""){
+            e.target.parentElement.querySelector("label").setAttribute("style", "")
+          }
         }) 
     })
 </script>
