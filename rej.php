@@ -1,13 +1,15 @@
 <?php
 require_once "connect.php";
 session_start();
-$form = $_GET['form'] ?? "rej";
+$form = $_GET['form'] ?? "log";
 if($error == 0){
   if($form == "log"){
     echo '<style>#log_form{display: block !important;}</style>';
   }else{
     echo '<style>#rej_form{display: block !important;}</style>';
   }
+}else{
+  header('Location: index.php');
 }
 ?>
 <html>
@@ -19,13 +21,16 @@ if($error == 0){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/rej.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+
 <a href="index.php" draggable="false"><img draggable="false" src="images/arrows.png" width="50px" height="50px"></a>
+
 <!-- Rejestracja -->
 <form action="rej.php?form=rej" method="post" id="rej_form">
     <div class="login-box">
-  <h2>Rejestracja</h2>
+  <h2 class="text-xl font-semibold mb-8">Rejestracja</h2>
   <?php
     $rej_login = $_POST['rej_login'] ?? null;
     $rej_haslo = $_POST['rej_haslo'] ?? null;
@@ -90,7 +95,7 @@ if($error == 0){
       <input type="email" name="rej_email" required="true" value="" autocomplete="off">
       <label>E-mail</label>
     </div>
-    <a href="rej.php?form=log">Masz już konto?</a>
+    <a href="rej.php?form=log" class="text-sky-400 mt-3 mb-10">Masz już konto?</a>
     <label class="label_submit" for="rej_submit">
       <span></span>
       <span></span>
@@ -101,32 +106,32 @@ if($error == 0){
     <input type="submit" hidden id="rej_submit">
   </form>
 </div>
+
 <!-- Logowanie -->
 </form>
 <form action="rej.php?form=log" method="post" id="log_form">
     <div class="login-box">
-  <h2>Logowanie</h2>
+  <h2 class="text-xl font-semibold mb-8">Logowanie</h2>
   <?php
-    // Logowanie
-$log_login = $_POST['log_login'] ?? null;
-$log_haslo = $_POST['log_haslo'] ?? null;
-if($log_login && $log_haslo){
-    $sql = "SELECT * FROM uzytkownicy WHERE login='$log_login';";
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    $ilu_userow = $stmt->rowCount();
-    $wiersz_user = $stmt->fetch(PDO::FETCH_ASSOC);
-    if($ilu_userow>0 and password_verify($log_haslo, $wiersz_user['haslo'])){
-        $_SESSION['zalogowany'] = 'True';
-        $_SESSION['time'] = time();
-        $_SESSION['expire'] = $_SESSION['time'] + (15 * 60);
-        $_SESSION['login'] = $wiersz_user['login'];
-        header("Location: index.php");
-    }else{
-        echo '<span class="error">Nie znaleziono użytkownika z podanym loginem/hasłem</span>';
-    }
-}    
-    ?>
+    $log_login = $_POST['log_login'] ?? null;
+    $log_haslo = $_POST['log_haslo'] ?? null;
+    if($log_login && $log_haslo){
+        $sql = "SELECT * FROM uzytkownicy WHERE login='$log_login';";
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $ilu_userow = $stmt->rowCount();
+        $wiersz_user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($ilu_userow>0 and password_verify($log_haslo, $wiersz_user['haslo'])){
+            $_SESSION['zalogowany'] = 'True';
+            $_SESSION['time'] = time();
+            $_SESSION['expire'] = $_SESSION['time'] + (15 * 60);
+            $_SESSION['login'] = $wiersz_user['login'];
+            header("Location: index.php");
+        }else{
+            echo '<span class="error">Nie znaleziono użytkownika z podanym loginem/hasłem</span>';
+        }
+    }    
+  ?>
   <form>
     <div class="user-box">
       <input type="text" name="log_login" required="true" value="" autocomplete="off">
@@ -136,8 +141,8 @@ if($log_login && $log_haslo){
       <input type="password" name="log_haslo" required="true" value="" autocomplete="off">
       <label>Hasło</label>
     </div>
-    <a href="rej.php?form=rej" draggable="false">Nie masz konta?</a>
-    <label class="label_submit" for="log_submit">
+    <a href="rej.php?form=rej" draggable="false" class="text-sky-400 mt-3 mb-10">Nie masz konta?</a>
+    <label class="label_submit text-md" for="log_submit">
       <span></span>
       <span></span>
       <span></span>
@@ -146,6 +151,7 @@ if($log_login && $log_haslo){
     </label>
     <input type="submit" hidden id="log_submit">
   </form>
+  
 <!-- JS :) -->
 <script>
     document.querySelectorAll("input").forEach(el =>{

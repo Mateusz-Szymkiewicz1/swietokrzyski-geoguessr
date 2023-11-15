@@ -37,7 +37,8 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
   map = new google.maps.Map(document.getElementById("mapa"), { // stworzenie obiektu mapa, przypisanie do diva
     zoom: window.maps[window.current_map].zoom,
     center: window.maps[window.current_map].center,
-    clickableIcons: false
+    clickableIcons: false,
+    disableDefaultUI: true,
   });
   panorama = new google.maps.StreetViewPanorama( // stworzenie obiektu streetview (panorama), przypisanie do diva
     document.getElementById("pano")

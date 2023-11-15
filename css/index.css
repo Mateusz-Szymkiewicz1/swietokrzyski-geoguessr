@@ -1,83 +1,12 @@
+*{
+  scroll-behavior: smooth;
+}
 body {
   font-family: 'Roboto', sans-serif;
-  padding-top: 20px;
-  background: #171717;
   color: #fff;
-}
-.top_bar {
-  display: flex;
-}
-h1 {
-  float: left;
-  font-size: 36px;
-  text-shadow: 4px 4px 6px rgba(0, 0, 0, 1);
-  margin-top: 0;
-}
-.logo {
-  width: 60px;
-  height: 60px;
-  float: left;
-  margin-left: 20px;
-  margin-right: 16px;
-}
-.dot {
-  font-size: 44px;
-  color: #03e9f4;
-}
-button {
-  font-family: 'Roboto', sans-serif;
-  cursor: pointer;
-}
-.top_bar button {
-  height: 40px;
-  outline: none;
-  border: 0;
-  margin-right: 20px;
-  color: #fff;
-  font-size: 18px;
-  padding: 10px;
-  margin-top: 10px;
-  transition: background 0.4s;
-  cursor: pointer;
-}
-.buttons {
-  margin-left: auto;
-}
-.login {
-  background: #2ecc71;
-}
-.login:hover {
-  background: #1dbb60;
-}
-.rejestracja {
-  background: #969eff;
-}
-.rejestracja:hover {
-  background: #858dee;
-}
-a {
-  color: #fff;
-  text-decoration: none;
-}
-.span_login {
-  font-size: 30px;
-  display: block;
-  margin-top: 8px;
-  float: right;
-}
-.prof_pic {
-  height: 50px;
-  float: right;
-  width: 50px;
-  border-radius: 50%;
-  margin-right: 20px;
-  margin-left: 20px;
 }
 .cards {
-  width: 95%;
   display: flex;
-  margin-left: 30px;
-  margin-top: 40px;
   flex-flow: row wrap;
   gap: 50px;
 }
@@ -121,9 +50,9 @@ a {
 }
 .card__time {
   font-size: 18px;
-  vertical-align: middle;
-  margin-right: 12px;
+  margin-top: -25px;
   font-weight: 700;
+  display: block;
 }
 .card__clock-info {
   float: right;
@@ -199,87 +128,30 @@ a {
 .card:hover .card__info-hover {
   opacity: 1;
 }
-.h2_mapy {
-  margin-left: 30px;
-  font-size: 24px;
-  margin-top: 60px;
-}
-.error {
-  background: #303030;
-  width: 300px;
-  height: 75px;
-  border: 2px solid #d63031;
-  text-align: center;
-  font-size: 24px;
-  padding: 10px;
-  padding-top: 30px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  text-decoration: underline;
-  text-decoration-color: #d63031;
+#error{
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
   z-index: 1000;
 }
-.error > a {
-  display: none;
-}
-.footer {
-  width: 100%;
-  height: 50px;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  padding-top: 130px;
-  font-size: 22px;
-  padding-left: 30px;
-  flex-wrap: wrap;
-  gap: 25px;
-}
-.footer i {
-  font-size: 34px;
-  margin-right: 20px;
-  margin-top: -5px;
-}
-.footer span {
-  margin-right: 50px;
-}
-.footer a {
-  color: rgba(3, 233, 244, 1);
-}
-@media only screen and (max-width: 822px) {
-  .h2_mapy {
-    text-align: center;
-  }
-  .cards {
-    justify-content: center;
-  }
-  .footer {
-    justify-content: center;
-  }
-}
 .game_setup {
-  position: absolute;
-  top: 60px;
+  position: fixed;
   height: 550px;
   left: 15%;
   right: 15%;
   background: #202020;
   border: 1px solid rgba(3, 233, 244);
   z-index: 100;
+  top: 50%;
+  margin-top: -275px;
 }
 .close {
   position: relative;
-  font-weight: 900;
   font-size: 35px;
   float: right;
-  margin-right: 15px;
   cursor: pointer;
   z-index: 1000;
   text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
-}
-.image {
-  height: 100%;
-  width: 100%;
 }
 .image::before {
   background-size: cover;
@@ -295,18 +167,8 @@ a {
   position: relative;
   z-index: 100;
 }
-.image h2 {
-  padding: 0;
-  margin: 0;
-  text-align: center;
-  color: #fff;
-  font-size: 32px;
-  padding-top: 85px;
-}
 .image button {
   color: #fff;
-  background: #03e9f4;
-  box-shadow: 0 0 1px #03e9f4,0 0 5px #03e9f4,0 0 10px #03e9f4,0 0 20px #03e9f4;
   padding: 12px;
   font-size: 18px;
   display: block;
@@ -323,6 +185,7 @@ a {
 }
 label input {
   cursor: pointer;
+  color: #000;
 }
 .image label:first-of-type {
   margin-top: 50px;
@@ -332,6 +195,11 @@ label input[type=time] {
   border: 0;
   height: 25px;
   padding-left: 5px;
-  width: 80px;
+  width: 120px;
   margin-left: 8px;
+}
+.hero{
+  background: url(../images/tlo.jpg);
+  background-size: cover;
+  -webkit-mask-image: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 19%);
 }

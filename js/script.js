@@ -57,7 +57,8 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
   map = new google.maps.Map(document.getElementById("mapa"), { // stworzenie obiektu mapa, przypisanie do diva
     zoom: window.maps[window.current_map].zoom,
     center: window.maps[window.current_map].center, // kordynaty środka mapy
-    clickableIcons: false
+    clickableIcons: false,
+    disableDefaultUI: true,
   });
   panorama = new google.maps.StreetViewPanorama( // stworzenie obiektu streetview (panorama), przypisanie do diva
     document.getElementById("pano")
@@ -237,7 +238,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
     document.getElementById("runda").innerHTML = "";
     document.getElementById("mapa").innerHTML = "";
     document.getElementById("mapa").style.border = "0";
-    document.getElementById("pano").style.cssText = `background: transparent;padding-top:100px;border:2px solid #fff;height: 45vh;width: 100%;text-align:center;filter: invert(1);`;
+    document.getElementById("pano").style.cssText = `background: transparent;padding-top:100px;border:2px solid #fff;height: 45vh;width: 100%;text-align:center;`;
     document.getElementById("pano").innerHTML = '';
     document.getElementById("body").style.overflowY = "auto";
     let map_end = new google.maps.Map(document.getElementById("pano"), {

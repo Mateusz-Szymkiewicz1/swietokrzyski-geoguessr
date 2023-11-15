@@ -20,12 +20,6 @@ form {
   border-radius: 10px;
   color: #fff;
 }
-.login-box h2 {
-  margin: 0 0 30px;
-  padding: 0;
-  color: #fff;
-  text-align: center;
-}
 .login-box .user-box {
   position: relative;
 }
@@ -55,8 +49,8 @@ form {
   display: block;
   margin: auto;
   width: 120px;
-  height: 31px;
-  padding-top: 13px;
+  height: 35px;
+  padding-top: 6px;
   transition: 0.4s;
   cursor: pointer;
   overflow: hidden;
@@ -158,8 +152,6 @@ form {
   display: none;
 }
 a {
-  color: #03e9f4;
-  text-decoration: none;
   display: block;
   margin-bottom: 25px;
 }
@@ -169,23 +161,8 @@ img {
   left: 10px;
   transform: rotate(-180deg);
 }
-.error {
-  background: #303030;
-  width: 450px;
-  height: 110px;
-  border: 2px solid #d63031;
-  text-align: center;
-  font-size: 24px;
-  padding: 10px;
-  padding-top: 70px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-decoration: underline;
-  text-decoration-color: #d63031;
-  z-index: 100;
-}
-.error > a {
-  display: none;
+.error{
+  color: #e55039;
+  display: block;
+  margin-bottom: 20px;
 }

@@ -13,9 +13,6 @@ body {
   left: 0;
   z-index: 0;
 }
-#pano > div:first-child {
-  filter: invert(1);
-}
 .gm-iv-address {
   display: none;
 }
@@ -31,9 +28,6 @@ body {
 }
 .gm-style-cc, .gm-fullscreen-control {
   display: none;
-}
-.gmnoprint {
-  filter: invert();
 }
 #kordy {
   margin-left: 1vw;
