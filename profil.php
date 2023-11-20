@@ -7,9 +7,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
-      <link rel="stylesheet" href="css/profil.css">
+    <link rel="stylesheet" href="css/profil.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <?php
 require "connect.php";
@@ -30,14 +31,13 @@ if($wyloguj){
 if($login == null){
     echo "<script>window.location.href='index.php'</script>";
     die;
-}else{
-    if($error == 0){
-   $sql = "SELECT * FROM uzytkownicy WHERE login='$login';";
+}else if($error == 0){
+    $sql = "SELECT * FROM uzytkownicy WHERE login='$login';";
     $stmt = $db->prepare($sql);
     $stmt->execute();
     $ilu_userow = $stmt->rowCount();
-     if($ilu_userow < 1){
-       echo "<script>window.location.href='index.php'</script>"; 
+    if($ilu_userow < 1){
+        echo "<script>window.location.href='index.php'</script>"; 
         die;
     }
     $wiersz_user = $stmt->fetch(PDO::FETCH_ASSOC); 
@@ -48,7 +48,7 @@ if($login == null){
     if($cs_sum == 0){
         $cs_avg = 0;
     }else{
-         $cs_avg = round($cs_sum/$cs_games, 2);
+        $cs_avg = round($cs_sum/$cs_games, 2);
     }
     $ragequity = $wiersz_user['rozegrane']-$wiersz_user['ukonczone'];
     $max_score = $wiersz_user['max_score'];
@@ -56,13 +56,12 @@ if($login == null){
     $fav_maps_tab = explode(",",$fav_maps);
     array_pop($fav_maps_tab);
     if($wiersz_user['ukonczone'] > 0){
-        $avg_score = $wiersz_user['sum_score']/$wiersz_user['ukonczone'];
+        $avg_score = round($wiersz_user['sum_score']/$wiersz_user['ukonczone'], 2);
     }else{
         $avg_score = 0;
-    }
-    }else{
-        die;
-    }
+    } 
+}else{
+    die;
 }
 if(isset($_SESSION['zalogowany'])){
     if($_SESSION['expire'] < time()){
@@ -76,9 +75,12 @@ if(isset($_SESSION['zalogowany'])){
     }
 }
 ?>
-<body id="body">
- <div class="top_bar">
-     <a href="index.php" draggable="false"><img draggable="false" src="favicon.ico"><span>Żiogeser</span></a>
+<body id="body" class="bg-stone-950 p-0 m-0 text-white overflow-x-hidden">
+ <div class="top_bar bg-sky-400 fixed top-0 left-0 w-full z-50">
+    <a href="index.php" draggable="false">
+        <img draggable="false" src="favicon.ico">
+        <span class="font-semibold block">Żiogeser</span>
+    </a>
  </div>
    <div class="bg_wrapper">
         <?php
@@ -95,8 +97,8 @@ if(isset($_SESSION['zalogowany'])){
                echo '<img src="images/bg.jpg" class="img_bg">';  
             }
         ?>  
-        <button class="bg_button"><label for="bg_file" form="bg_form"><i class="material-icons">create</i></label></button>
-        <button class="bg_button" id="delete_bg"><label for="bg_submit"><i class="material-icons">close</i></label></button>
+        <button class="bg_button hover:text-white hover:bg-sky-400"><label for="bg_file" form="bg_form"><i class="material-icons">create</i></label></button>
+        <button class="bg_button hover:text-white hover:bg-sky-400" id="delete_bg"><label for="bg_submit"><i class="material-icons">close</i></label></button>
    </div>
    <div class="prof_wrapper">
        <?php
@@ -116,7 +118,7 @@ if(isset($_SESSION['zalogowany'])){
        <button class="prof_button"><label for="prof_file"><i class="material-icons">create</i></label></button>
        <button class="prof_button" id="delete_prof"><label for="prof_submit"><i class="material-icons">close</i></label></button>
    </div>
-   <span class="span_login"><?=$login?></span>
+   <span class="span_login text-center block text-4xl mt-28 font-semibold"><?=$login?></span>
    <?php
     if($wlasciciel == 1){
         echo '<script src="js/change_pic.js" defer></script>';
@@ -243,7 +245,7 @@ if($prof_submit){
         <td><?=$max_score?></td>
     </tr>
 </table>
-<h2>Country Streak</h2>
+<h2 class="font-semibold text-3xl">Country Streak</h2>
 <table>
     <tr>
         <th>Rozegrane</th>
@@ -258,7 +260,7 @@ if($prof_submit){
 </table>
 <?php
     if($fav_maps != ""){
-        echo '<h2>Ulubione mapy</h2><div class="cards">';
+        echo '<h2 class="font-semibold text-3xl mb-20">Ulubione mapy</h2><div class="cards">';
     }
     foreach ($fav_maps_tab as $map) {
         if($map == "Świat"){
