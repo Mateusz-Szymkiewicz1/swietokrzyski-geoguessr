@@ -13,6 +13,12 @@ body {
   left: 0;
   z-index: 0;
 }
+#pano > div:first-child {
+  filter: invert(1);
+}
+.gmnoprint {
+  filter: invert();
+}
 .gm-iv-address {
   display: none;
 }
