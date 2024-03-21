@@ -1,32 +1,6 @@
-function randomFloat(min, max) {
-  return (Math.random() * (max - min)) + min; // funkcja tworząca losowe floaty
-}
-const urlParams = new URLSearchParams(window.location.search);
-window.current_map = urlParams.get("map");
-window.move = true;
-window.pan = true;
-window.zoom = true;
-window.time_limit = 0;
-if (urlParams.get("move") && urlParams.get("move") == "false") {
-  window.move = false;
-}
-if (urlParams.get("pan") && urlParams.get("pan") == "false") {
-  window.pan = false;
-}
-if (urlParams.get("zoom") && urlParams.get("zoom") == "false") {
-  window.zoom = false;
-}
-if (urlParams.get("time_limit") && urlParams.get("time_limit") != "0") {
-  window.time_limit = parseInt(urlParams.get("time_limit"));
-}
-if (!(window.current_map in window.maps)) {
-  window.location.href = 'index.php';
-}
 let panorama, map, kordynaty, marker, sv, czas, time_interval;
 let licznik = 0;
 let runda = 0;
-window.locations = [];
-window.guesses = [];
 window.current_country = "";
 
 function initMap() { // funkcja odbywająca się wraz z startem strony
@@ -106,47 +80,9 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
       }
     );
   } // funkcja getPanorama szuka zdjęc streetview na lokalizacji 'kordynaty' w zasięgu 8000 metrów
-  window.use_time = function () {
-    document.getElementById("czas").innerHTML = "00:00";
-    document.querySelector("#czas").style.color = "#fff";
-    document.querySelector("#czas").style.animation = "";
-    czas = 0;
-    time_interval = setInterval(function () {
-      if (window.time_limit != 0) {
-        if (czas >= window.time_limit) {
-          przegrana()
-        } else if (window.time_limit - czas < 11) {
-          document.querySelector("#czas").style.color = "#d63031";
-          document.querySelector("#czas").style.animation = "heartBeat 2s infinite";
-        }
-      }
-      czas++;
-      let czas_format = czas;
-      if (czas < 10) {
-        czas_format = `00:0${czas}`;
-      } else if (czas < 60) {
-        czas_format = `00:${czas}`;
-      } else if (czas >= 60) {
-        let minuty = Math.floor(czas / 60)
-        let sekundy = czas - (minuty * 60)
-        if (minuty < 10) {
-          minuty = '0' + minuty;
-        }
-        if (sekundy < 10) {
-          sekundy = '0' + sekundy;
-        }
-        czas_format = `${minuty}:${sekundy}`;
-      }
-      if (window.time_limit != 0) {
-        if (czas <= window.time_limit) {
-          document.getElementById("czas").innerHTML = czas_format;
-        }
-      } else {
-        document.getElementById("czas").innerHTML = czas_format;
-      }
-    }, 1000)
-  }
+
   getPano();
+  
   google.maps.event.addListener(map, 'dblclick', function (e) { // funkcja aktywuje się po kliknięciu na mapę
     if (licznik == 0) { // licznik - ilość postawionych znaczników, przyjmuje wartości 0, 1
       marker.setVisible(true);
@@ -200,33 +136,6 @@ function initMap() { // funkcja odbywająca się wraz z startem strony
 
 }
 
-function start() {
-  window.getPano(true);
-}
-async function processSVData({data}) {
-  let location = data.location;
-  panorama.setOptions({
-    showRoadLabels: false,
-    clickToGo: window.move,
-    disableDefaultUI: !window.move,
-    zoomControl: window.zoom,
-    scrollwheel: window.zoom,
-    panControl: window.pan,
-  });
-  marker = new google.maps.Marker({ // tworzy znacznik wylosowanego miejsca, domyślnie niewidoczny
-    position: location.latLng,
-    map,
-    animation: google.maps.Animation.DROP,
-    icon: 'images/go.png',
-  });
-  window.locations.push(location);
-  marker.setVisible(false);
-  panorama.setPano(location.pano); // ustawia panoramę
-  panorama.setPov({
-    heading: 270,
-    pitch: 0,
-  })
-}
 window.initMap = initMap;
 
 function kordy() { // losuje nowe kordy, czyści wszystkie divy
@@ -258,5 +167,5 @@ function przegrana() {
   document.getElementById("start").style.display = "none";
   document.querySelector("#runda").classList.add("runda");
   document.querySelector("#runda").removeAttribute("id");
-  document.querySelector(".runda").innerHTML = document.querySelector(".runda").innerHTML + `<br /><a href="country_streak.php?map=${window.current_map}"><button>Nowa gra</button></a>`;
+  document.querySelector(".runda").innerHTML = document.querySelector(".runda").innerHTML + `<br /><a href="country_streak.php?map=${window.current_map}&time_limit=${window.time_limit}&pan=${window.pan}&zoom=${window.zoom}&move=${window.move}"><button>Nowa gra</button></a>`;
 }
