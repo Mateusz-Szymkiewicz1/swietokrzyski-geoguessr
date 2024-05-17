@@ -16,9 +16,6 @@ body {
 #pano > div:first-child {
   filter: invert(1);
 }
-.gmnoprint {
-  filter: invert();
-}
 .gm-iv-address {
   display: none;
 }
@@ -39,7 +36,7 @@ body {
   margin-left: 1vw;
 }
 .kordy {
-  width: 2vw;
+  width: 50px;
   font-size: 1.6vw;
   text-align: center;
   cursor: pointer;

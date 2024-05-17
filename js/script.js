@@ -161,7 +161,11 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         guess_end = new google.maps.Marker({
           position: window.guesses[i].latLng,
           map: map_end,
-          icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + randomColor2
+          icon: {
+            path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+            strokeColor: randomColor,
+            scale: 4
+          }
         });
         let odl_end = new google.maps.Polyline({
           path: [location_end.getPosition(), guess_end.getPosition()],
@@ -172,6 +176,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
         });
       }
     }
+    document.querySelector('#pano').style.filter = 'invert()';
     let endbox = document.createElement("div");
     endbox.classList.add("endbox");
     endbox.innerHTML = `<h2>Gra skończona!</h2><br/><h3>Punkty: ${punkty}</h3><table><tr><th>Runda</th><th>Odległość</th><th>Punkty</th><th>Czas</th></tr></table><br /><a class="nowa_gra" href="gra.php?map=${window.current_map}">Nowa gra</a>`;
@@ -246,7 +251,7 @@ function kordy() { // losuje nowe kordy, czyści wszystkie divy
       }
       time_total = czas_format
     }
-    document.querySelector("h3").innerHTML += `<br/>Czas: ${time_total}`;
+    document.querySelector("h3").innerHTML += `<br/>Czas: ${time_total}<br/><br/>`;
     let color_count = 0;
     window.random_colors.forEach(color => {
       let style = document.createElement("style");
