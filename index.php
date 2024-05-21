@@ -195,7 +195,7 @@ if(isset($_SESSION['zalogowany']) && isset($_SESSION['login'])){
 <div class="bg-stone-900 mt-32">
   <div class="flex flex-wrap gap-x-9 gap-y-5 text-2xl p-10">
     <div>
-      <i class="fa fa-user mr-2"></i><span>Mateusz Szymkiewicz 2023 ©</span>
+      <i class="fa fa-user mr-2"></i><span>Mateusz Szymkiewicz <script>document.write(new Date().getFullYear())</script> ©</span>
     </div>
     <div>
       <i class="fa fa-code mr-2"></i><span><a href="https://github.com/Mateusz-Szymkiewicz1/swietokrzyski-geoguessr" target="_blank" class="text-sky-500">Github</a></span>
